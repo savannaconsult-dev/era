@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eRA · Enterprise Readiness Analyzer · Savanna Consulting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-mark"></div>
+    <div class="sidebar-brand-text">
+      <span class="sidebar-brand-name"><span style="color:var(--action);font-style:italic;">e</span>RA</span>
+      <span class="sidebar-brand-sub">Enterprise Readiness Analyzer</span>
+      <span style="display:block;margin-top:3px;font-size:0.68rem;color:var(--ink-soft);letter-spacing:0.05em;">by Savanna Consulting</span>
+    </div>
+  </div>
+
+  <!-- EVALUATION MANAGER -->
+  <div class="eval-container" id="eval-container">
+    <!-- Rendered by evalUIInit() -->
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-label">Navigation</div>
+    <button class="nav-item active" onclick="switchTool('start')" id="nav-start">
+      <span class="nav-num" style="background:linear-gradient(135deg,rgba(228,87,61,0.15),rgba(44,91,227,0.15));color:var(--action-dark);">⬡</span>
+      <span class="nav-label">Dashboard</span>
+      <span class="nav-status-dot" id="dot-start"></span>
+    </button>
+
+    <div class="sidebar-section-label" style="margin-top:8px;">Tools</div>
+    <button class="nav-item" onclick="switchTool('t1')" id="nav-t1">
+      <span class="nav-num">01</span>
+      <span class="nav-label">Requirements Scorecard</span>
+      <span class="nav-status-dot" id="dot-t1"></span>
+    </button>
+    <button class="nav-item" onclick="switchTool('t2')" id="nav-t2">
+      <span class="nav-num">02</span>
+      <span class="nav-label">TCO Calculator</span>
+      <span class="nav-status-dot" id="dot-t2"></span>
+    </button>
+    <button class="nav-item" onclick="switchTool('t3')" id="nav-t3">
+      <span class="nav-num">03</span>
+      <span class="nav-label">DCAA Readiness Guide</span>
+      <span class="nav-status-dot" id="dot-t3"></span>
+    </button>
+    <button class="nav-item" onclick="switchTool('t4')" id="nav-t4">
+      <span class="nav-num">04</span>
+      <span class="nav-label">RFI &amp; Demo Script</span>
+      <span class="nav-status-dot" id="dot-t4"></span>
+    </button>
+    <button class="nav-item" onclick="switchTool('t5')" id="nav-t5">
+      <span class="nav-num">05</span>
+      <span class="nav-label">Data Migration Audit</span>
+      <span class="nav-status-dot" id="dot-t5"></span>
+    </button>
+    <button class="nav-item" onclick="switchTool('t6')" id="nav-t6">
+      <span class="nav-num">06</span>
+      <span class="nav-label">Implementation Playbook</span>
+      <span class="nav-status-dot" id="dot-t6"></span>
+    </button>
+
+    <div class="sidebar-section-label" style="margin-top:8px;">Support</div>
+    <button class="nav-item" onclick="switchTool('help')" id="nav-help">
+      <span class="nav-num" style="background:rgba(61,138,122,0.15);color:var(--teal);">?</span>
+      <span class="nav-label">Help &amp; Resources</span>
+    </button>
+  </nav>
+
+  <div class="sidebar-cta">
+    <div class="sidebar-cta-label">Need Expert Guidance?</div>
+    <div class="sidebar-cta-text">Book a free 30-min strategy call with Savanna Consulting.</div>
+    <a href="https://app.usemotion.com/meet/Savanna-Consulting/intro-strategy" target="_blank" class="sidebar-cta-btn">Book a Strategy Call</a>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+<div class="tool-panel active" id="panel-start">
+  <div class="dash-hero">
+    <div class="dash-hero-inner">
+      <div>
+        <div class="dash-kicker">Enterprise Readiness Analyzer · 6 Tools</div>
+        <h1 class="dash-title"><span style="color:var(--action);font-style:italic;">e</span>RA Dashboard</h1>
+        <p class="dash-sub">Live summary of results from your completed tools. Updates automatically as you work through the analyzer.</p>
+      </div>
+      <button class="dash-print-btn" onclick="window.print()">⬡ Print Summary Report</button>
+    </div>
+  </div>
+
+  <div class="dash-main">
+    <div class="print-hdr">
+      <div class="print-hdr-title">ERP Evaluation Summary Report</div>
+      <div class="print-hdr-sub">Savanna Consulting · Enterprise Readiness Analyzer · savannaconsult.com</div>
+    </div>
+
+    <!-- PROGRESS PILLS -->
+    <div class="progress-pills" id="progress-pills">
+      <div class="prog-pill" onclick="switchTool('t1')" id="pill-t1">
+        <span class="prog-pill-dot"></span>
+        <span>01 Requirements</span>
+        <span class="prog-pill-status" id="pill-t1-status">· Not started</span>
+      </div>
+      <div class="prog-pill" onclick="switchTool('t2')" id="pill-t2">
+        <span class="prog-pill-dot"></span>
+        <span>02 TCO</span>
+        <span class="prog-pill-status" id="pill-t2-status">· Not started</span>
+      </div>
+      <div class="prog-pill" onclick="switchTool('t3')" id="pill-t3">
+        <span class="prog-pill-dot"></span>
+        <span>03 DCAA</span>
+        <span class="prog-pill-status" id="pill-t3-status">· Not started</span>
+      </div>
+      <div class="prog-pill" onclick="switchTool('t4')" id="pill-t4">
+        <span class="prog-pill-dot"></span>
+        <span>04 RFI &amp; Demo</span>
+        <span class="prog-pill-status">· Reference tool</span>
+      </div>
+      <div class="prog-pill" onclick="switchTool('t5')" id="pill-t5">
+        <span class="prog-pill-dot"></span>
+        <span>05 Data Migration</span>
+        <span class="prog-pill-status" id="pill-t5-status">· Not started</span>
+      </div>
+      <div class="prog-pill" onclick="switchTool('t6')" id="pill-t6">
+        <span class="prog-pill-dot"></span>
+        <span>06 Playbook</span>
+        <span class="prog-pill-status" id="pill-t6-status">· Not started</span>
+      </div>
+    </div>
+
+    <!-- WIDGETS -->
+    <div class="dash-widgets">
+      <!-- Scorecard -->
+      <div class="dash-widget" id="dash-scorecard-widget">
+        <div class="dw-kicker">Tool 01 · Requirements Scorecard</div>
+        <div class="dw-title">Vendor Scores by Section</div>
+        <div id="dash-scorecard-content">
+          <div class="dw-empty">
+            <div class="dw-empty-icon">📋</div>
+            <div class="dw-empty-text">Complete Tool 01 and click "Calculate Final Scores" to see results here.</div>
+            <div class="dw-empty-cta" onclick="switchTool('t1')">Open Requirements Scorecard →</div>
+          </div>
+        </div>
+      </div>
+      <!-- TCO -->
+      <div class="dash-widget" id="dash-tco-widget">
+        <div class="dw-kicker">Tool 02 · TCO Calculator</div>
+        <div class="dw-title">3-Year Cost Comparison</div>
+        <div id="dash-tco-content">
+          <div class="dw-empty">
+            <div class="dw-empty-icon">💰</div>
+            <div class="dw-empty-text">Complete Tool 02 and click "Calculate 3-Year TCO" to see results here.</div>
+            <div class="dw-empty-cta" onclick="switchTool('t2')">Open TCO Calculator →</div>
+          </div>
+        </div>
+      </div>
+      <!-- Go-live -->
+      <div class="dash-widget full" id="dash-golive-widget">
+        <div class="dw-kicker">Tool 06 · Implementation Playbook</div>
+        <div class="dw-title">Go-Live Readiness Score</div>
+        <div id="dash-golive-content">
+          <div class="dw-empty">
+            <div class="dw-empty-icon">🚦</div>
+            <div class="dw-empty-text">Complete the Go-Live Readiness Assessment in Tool 06 and click "Score Go-Live Readiness" to see results here.</div>
+            <div class="dw-empty-cta" onclick="switchTool('t6');setTimeout(()=>switchInnerTab('t6','golive'),100)">Open Go-Live Readiness →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW TO USE -->
+    <div class="htu-toggle" id="htu-toggle" onclick="toggleHtu()">
+      <span class="htu-toggle-label">How to Use This Bundle</span>
+      <span class="htu-toggle-arrow">▼</span>
+    </div>
+    <div class="htu-body" id="htu-body">
+      <p style="font-size:0.92rem;color:var(--ink-soft);line-height:1.7;margin-bottom:18px;">Six tools, one structured process. Work through them in order, or jump to the stage you're in. Save any tool's output using Print → Save as PDF.</p>
+      <div class="how-grid">
+        <div class="how-card"><div class="how-step">Step 01</div><div class="how-title">Start with Requirements</div><div class="how-desc">Every other tool depends on documented requirements. Open Tool 01 first — even if you think you already know what you need.</div></div>
+        <div class="how-card"><div class="how-step">Step 02</div><div class="how-title">Work in Sequence</div><div class="how-desc">Each tool maps to a stage of the ERP evaluation. If you're mid-evaluation, start with the tool that matches your current stage.</div></div>
+        <div class="how-card"><div class="how-step">Step 03</div><div class="how-title">Return to Dashboard</div><div class="how-desc">After completing each tool, return here to see your results summarized. Use "Print Summary Report" to export everything at once.</div></div>
+      </div>
+      <div class="tool-cards-list">
+        <div class="tool-card-sh" onclick="switchTool('t1')"><div class="tc-sh-num">01</div><div class="tc-sh-body"><div class="tc-sh-type">Evaluation Framework</div><div class="tc-sh-name">ERP Requirements Scorecard</div><div class="tc-sh-desc">40+ weighted criteria. Side-by-side vendor comparison.</div><div class="tc-sh-tags"><span class="tc-sh-tag">Start here</span><span class="tc-sh-tag">~45–60 min</span></div></div><div class="tc-sh-action"><button class="btn btn-primary" style="font-size:0.82rem;padding:9px 18px;">Open →</button></div></div>
+        <div class="tool-card-sh" onclick="switchTool('t2')"><div class="tc-sh-num">02</div><div class="tc-sh-body"><div class="tc-sh-type">Financial Model</div><div class="tc-sh-name">Total Cost of Ownership Calculator</div><div class="tc-sh-desc">3-year TCO model for up to three vendors.</div><div class="tc-sh-tags"><span class="tc-sh-tag">All org types</span><span class="tc-sh-tag">~30–45 min</span></div></div><div class="tc-sh-action"><button class="btn btn-primary" style="font-size:0.82rem;padding:9px 18px;">Open →</button></div></div>
+        <div class="tool-card-sh featured" onclick="switchTool('t3')"><div class="tc-sh-num">03</div><div class="tc-sh-body"><div class="featured-badge">GovCon Essential</div><div class="tc-sh-type">Compliance Guide</div><div class="tc-sh-name">DCAA Accounting System Readiness Guide</div><div class="tc-sh-desc">SF 1408 assessment with scope check and action plan.</div><div class="tc-sh-tags"><span class="tc-sh-tag featured">Government Contractors</span></div></div><div class="tc-sh-action"><button class="btn btn-primary" style="font-size:0.82rem;padding:9px 18px;">Open →</button></div></div>
+        <div class="tool-card-sh" onclick="switchTool('t4')"><div class="tc-sh-num">04</div><div class="tc-sh-body"><div class="tc-sh-type">Vendor Management</div><div class="tc-sh-name">RFI &amp; Demo Script Template</div><div class="tc-sh-desc">RFI template, demo script, red flag checklist, reference check guide.</div><div class="tc-sh-tags"><span class="tc-sh-tag">All org types</span></div></div><div class="tc-sh-action"><button class="btn btn-primary" style="font-size:0.82rem;padding:9px 18px;">Open →</button></div></div>
+        <div class="tool-card-sh" onclick="switchTool('t5')"><div class="tc-sh-num">05</div><div class="tc-sh-body"><div class="tc-sh-type">Assessment Tool</div><div class="tc-sh-name">Data Migration Readiness Audit</div><div class="tc-sh-desc">Audit legacy data across five categories with migration strategy selector.</div><div class="tc-sh-tags"><span class="tc-sh-tag">Skip if first-time ERP</span></div></div><div class="tc-sh-action"><button class="btn btn-primary" style="font-size:0.82rem;padding:9px 18px;">Open →</button></div></div>
+        <div class="tool-card-sh" onclick="switchTool('t6')"><div class="tc-sh-num">06</div><div class="tc-sh-body"><div class="tc-sh-type">Implementation Planning</div><div class="tc-sh-name">Selection &amp; Implementation Playbook</div><div class="tc-sh-desc">6-phase roadmap, project charter, contract checklist, go-live assessment.</div><div class="tc-sh-tags"><span class="tc-sh-tag">Final stage</span></div></div><div class="tc-sh-action"><button class="btn btn-primary" style="font-size:0.82rem;padding:9px 18px;">Open →</button></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TOOL 1: REQUIREMENTS SCORECARD
+============================================================ -->
+<div class="tool-panel" id="panel-t1">
+  <div class="panel-wrap">
+    <div class="tool-section-header">
+      <div class="tool-kicker">Tool 01 · Evaluation Framework</div>
+      <h2 class="tool-title">ERP Requirements Scorecard</h2>
+      <p class="tool-desc">Define your requirements, set weights, and score up to three vendors side by side. Driven by data, not demo impressions.</p>
+    </div>
+    <div class="sc-card">
+      <div class="sc-card-title">Step 1 — Name Your Vendors</div>
+      <div class="field-row cols-3">
+        <div class="field-group"><label class="field-label">Vendor A</label><input class="field-input" id="t1v1name" type="text" placeholder="e.g., Sage Intacct" oninput="t1UpdateVendorNames()"></div>
+        <div class="field-group"><label class="field-label">Vendor B</label><input class="field-input" id="t1v2name" type="text" placeholder="e.g., NetSuite" oninput="t1UpdateVendorNames()"></div>
+        <div class="field-group"><label class="field-label">Vendor C (optional)</label><input class="field-input" id="t1v3name" type="text" placeholder="e.g., Microsoft D365" oninput="t1UpdateVendorNames()"></div>
+      </div>
+    </div>
+    <div id="t1-sections-body"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="t1Calculate()">Calculate Final Scores</button>
+      <button class="btn btn-secondary" onclick="window.print()">Print / Save PDF</button>
+    </div>
+    <div class="sc-card" id="t1-results" style="display:none;">
+      <div class="sc-card-title">Scorecard Results</div>
+      <p style="font-size:0.88rem;color:var(--ink-soft);margin-bottom:18px;">Weighted scores across all five sections.</p>
+      <div class="results-grid-3" id="t1-results-grid"></div>
+      <div class="breakdown-section"><div class="breakdown-title">Score by Section</div><div id="t1-breakdown-bars"></div></div>
+      <div class="retainer-block"><div class="rb-text"><div class="rb-title">Want a second opinion on your results?</div><div class="rb-desc">Savanna Consulting offers spot advisory sessions to review scorecard outcomes and pressure-test weighting decisions.</div></div><a href="https://app.usemotion.com/meet/Savanna-Consulting/intro-strategy" class="rb-link" target="_blank">Book a Strategy Call</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TOOL 2: TCO CALCULATOR
+============================================================ -->
+<div class="tool-panel" id="panel-t2">
+  <div class="panel-wrap">
+    <div class="tool-section-header">
+      <div class="tool-kicker">Tool 02 · Financial Model</div>
+      <h2 class="tool-title">Total Cost of Ownership Calculator</h2>
+      <p class="tool-desc">Model the true 3-year cost of up to three ERP systems — every cost most organizations never calculate before signing.</p>
+    </div>
+    <div class="sc-card">
+      <div class="sc-card-title">Setup</div>
+      <div class="field-row cols-4">
+        <div class="field-group"><label class="field-label">Organization</label><input class="field-input" id="t2org" type="text" placeholder="Your organization"></div>
+        <div class="field-group"><label class="field-label">Vendor A</label><input class="field-input" id="t2v1name" type="text" placeholder="e.g., Sage Intacct" oninput="t2UpdateLabels()"></div>
+        <div class="field-group"><label class="field-label">Vendor B</label><input class="field-input" id="t2v2name" type="text" placeholder="e.g., NetSuite" oninput="t2UpdateLabels()"></div>
+        <div class="field-group"><label class="field-label">Vendor C (optional)</label><input class="field-input" id="t2v3name" type="text" placeholder="e.g., MS Dynamics" oninput="t2UpdateLabels()"></div>
+      </div>
+    </div>
+    <div class="sub-header"><div class="sub-kicker">Year 1</div><div class="sub-title">Implementation &amp; Setup Costs</div><div class="sub-desc">All costs incurred in Year 1. One-time fees, implementation services, first-year license. Leave blank if not applicable.</div></div>
+    <div class="sc-card" style="padding:0;overflow:hidden;">
+      <table class="data-table"><thead><tr><th style="width:36%">Cost Item</th><th class="tc" style="width:21%"><span class="t2v1-label">Vendor A</span></th><th class="tc" style="width:21%"><span class="t2v2-label">Vendor B</span></th><th class="tc" style="width:21%"><span class="t2v3-label">Vendor C</span></th></tr></thead><tbody id="t2y1-body"></tbody></table>
+    </div>
+    <div class="sub-header"><div class="sub-kicker">Years 2–3</div><div class="sub-title">Annual Recurring Costs</div><div class="sub-desc">Expected annual cost in Years 2 and 3 (counted twice). Subscription, maintenance, ongoing support.</div></div>
+    <div class="sc-card" style="padding:0;overflow:hidden;">
+      <table class="data-table"><thead><tr><th style="width:36%">Cost Item</th><th class="tc" style="width:21%"><span class="t2v1-label">Vendor A</span></th><th class="tc" style="width:21%"><span class="t2v2-label">Vendor B</span></th><th class="tc" style="width:21%"><span class="t2v3-label">Vendor C</span></th></tr></thead><tbody id="t2y23-body"></tbody></table>
+    </div>
+    <div class="sub-header"><div class="sub-kicker">Internal Costs</div><div class="sub-title">Staff Time &amp; Productivity Estimator</div><div class="sub-desc">ERP implementations consume significant internal staff time that rarely appears in vendor quotes.</div></div>
+    <div class="sc-card">
+      <div class="field-row cols-3">
+        <div class="field-group"><label class="field-label">Project lead rate ($/hr)</label><input class="field-input money-input" id="t2lead-rate" type="number" placeholder="e.g., 85" oninput="t2CalcInternal()"></div>
+        <div class="field-group"><label class="field-label">Project lead hours total</label><input class="field-input money-input" id="t2lead-hrs" type="number" placeholder="e.g., 300" oninput="t2CalcInternal()"></div>
+        <div class="field-group"><label class="field-label">Staff training hours total</label><input class="field-input money-input" id="t2train-hrs" type="number" placeholder="e.g., 150" oninput="t2CalcInternal()"></div>
+        <div class="field-group"><label class="field-label">Avg staff rate ($/hr)</label><input class="field-input money-input" id="t2staff-rate" type="number" placeholder="e.g., 45" oninput="t2CalcInternal()"></div>
+        <div class="field-group"><label class="field-label">Data prep hours</label><input class="field-input money-input" id="t2data-hrs" type="number" placeholder="e.g., 80" oninput="t2CalcInternal()"></div>
+        <div class="field-group"><label class="field-label">Productivity loss ($)</label><input class="field-input money-input" id="t2prod-loss" type="number" placeholder="e.g., 10000" oninput="t2CalcInternal()"></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;background:var(--fog);border-radius:var(--radius-sm);padding:12px 16px;margin-top:12px;">
+        <span style="font-size:0.88rem;color:var(--steel);font-weight:600;">Estimated Internal Cost (add to each vendor's TCO)</span>
+        <span id="t2-internal-total" style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:var(--action-dark);">$0</span>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="t2Calculate()">Calculate 3-Year TCO</button>
+      <button class="btn btn-secondary" onclick="window.print()">Print / Save PDF</button>
+    </div>
+    <div id="t2-results" style="display:none;">
+      <div class="sc-card">
+        <div class="sc-card-title">3-Year Total Cost of Ownership</div>
+        <p style="font-size:0.88rem;color:var(--ink-soft);margin-bottom:18px;">All costs combined — vendor fees, implementation, support, and internal staff time.</p>
+        <div class="tco-comparison" id="t2-tco-cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px;"></div>
+        <div class="callout blue" id="t2-insight-box"></div>
+        <div style="overflow-x:auto;margin-top:16px;"><table class="data-table" id="t2-year-table"></table></div>
+        <div class="retainer-block"><div class="rb-text"><div class="rb-title">Need help validating these numbers?</div><div class="rb-desc">Savanna Consulting can review your model and identify gaps before you sign a contract.</div></div><a href="https://app.usemotion.com/meet/Savanna-Consulting/intro-strategy" class="rb-link" target="_blank">Book a Strategy Call</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TOOL 3: DCAA READINESS
+============================================================ -->
+<div class="tool-panel" id="panel-t3">
+  <div class="prog-bar-strip"><div class="prog-inner-wrap"><span class="prog-label">Progress</span><div class="prog-track"><div class="prog-fill" id="t3-prog-bar" style="width:0%"></div></div><span class="prog-count" id="t3-prog-count">0 of 0 answered</span></div></div>
+  <div class="panel-wrap narrow">
+    <div class="tool-section-header">
+      <div class="tool-kicker">Tool 03 · Compliance Guide · GovCon Essential</div>
+      <h2 class="tool-title">DCAA Accounting System Readiness Guide</h2>
+      <p class="tool-desc">Assess whether your ERP configuration will pass a DCAA pre-award accounting system adequacy review. Includes SF 1408 requirement mapping and prioritized action plan.</p>
+    </div>
+    <div class="gate-card">
+      <div class="gate-kicker">Step 1 — Scope Determination</div>
+      <div class="gate-title">Does DCAA Compliance Apply to You?</div>
+      <div class="gate-desc">Answer the questions below to determine whether this guide applies to your organization.</div>
+      <div class="gate-q"><div class="gate-q-text">Does your organization hold or actively pursue federal government contracts (FAR-based, not just grants)?</div><div class="gate-radio"><label><input type="radio" name="t3scope1" value="yes" onchange="t3CheckScope()"> Yes</label><label><input type="radio" name="t3scope1" value="no" onchange="t3CheckScope()"> No</label></div></div>
+      <div class="gate-q"><div class="gate-q-text">Do any of your contracts include cost-type CLINs, T&amp;M, cost-plus, or CPFF vehicles — or do you expect to bid on such contracts?</div><div class="gate-radio"><label><input type="radio" name="t3scope2" value="yes" onchange="t3CheckScope()"> Yes</label><label><input type="radio" name="t3scope2" value="no" onchange="t3CheckScope()"> No</label></div></div>
+      <div class="gate-result in-scope" id="t3-scope-in">✓ <strong>This guide applies to your organization.</strong> Complete the assessment below to identify gaps.</div>
+      <div class="gate-result out-scope" id="t3-scope-out">✓ <strong>This guide may not be required for your current contracts.</strong> Fixed-price-only contracts typically do not require accounting system adequacy. Review with your contracting officer if you plan to pursue cost-type vehicles.</div>
+    </div>
+    <div id="t3-assessment-body"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="t3Calculate()">Generate Readiness Report</button>
+      <button class="btn btn-secondary" onclick="window.print()">Print / Save PDF</button>
+    </div>
+    <div class="sc-card" id="t3-results" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TOOL 4: RFI & DEMO SCRIPT
+============================================================ -->
+<div class="tool-panel" id="panel-t4">
+  <div class="panel-wrap">
+    <div class="tool-section-header">
+      <div class="tool-kicker">Tool 04 · Vendor Management</div>
+      <h2 class="tool-title">RFI / Demo Script Template</h2>
+      <p class="tool-desc">Structured RFIs, controlled vendor demos, red flag identification, and reference checks — so every vendor conversation produces comparable, usable data.</p>
+    </div>
+    <div class="inner-tab-bar" id="t4-tabs">
+      <button class="inner-tab active" onclick="switchInnerTab('t4','rfi')">RFI Template</button>
+      <button class="inner-tab" onclick="switchInnerTab('t4','demo')">Demo Script</button>
+      <button class="inner-tab" onclick="switchInnerTab('t4','redflags')">Red Flag Checklist</button>
+      <button class="inner-tab" onclick="switchInnerTab('t4','refcheck')">Reference Check Guide</button>
+    </div>
+    <div class="inner-tab-content active" id="t4-tab-rfi">
+      <div class="sub-header"><div class="sub-kicker">Tab 1 of 4</div><div class="sub-title">Request for Information Template</div><div class="sub-desc">Issue this structured RFI before scheduling demos. Require written responses — gives you a comparable baseline before any sales conversation begins.</div></div>
+      <div class="sc-card">
+        <div class="sc-card-title">RFI Header Information</div>
+        <div class="field-row cols-2" style="margin-bottom:12px;">
+          <div class="field-group"><label class="field-label">Organization Name</label><input class="field-input" type="text" placeholder="Your organization"></div>
+          <div class="field-group"><label class="field-label">RFI Issue Date</label><input class="field-input" id="t4rfi-date" type="date"></div>
+          <div class="field-group"><label class="field-label">Response Deadline</label><input class="field-input" type="date"></div>
+          <div class="field-group"><label class="field-label">Primary Contact for Responses</label><input class="field-input" type="text" placeholder="Name, email"></div>
+        </div>
+        <div class="field-group"><label class="field-label">Brief Org Description (include in RFI header)</label><textarea class="field-input" placeholder="e.g., 45-person federal contractor with cost-type and FFP contracts, currently using QuickBooks Enterprise, seeking cloud ERP with DCAA-adequate timekeeping and project accounting."></textarea></div>
+      </div>
+      <div id="t4-rfi-sections"></div>
+      <div class="btn-row"><button class="btn btn-secondary" onclick="window.print()">Print / Export RFI</button></div>
+    </div>
+    <div class="inner-tab-content" id="t4-tab-demo">
+      <div class="sub-header"><div class="sub-kicker">Tab 2 of 4</div><div class="sub-title">Vendor Demo Script</div><div class="sub-desc">Send this agenda to vendors in advance. Require them to demonstrate your specific scenarios — not their standard sales demo.</div></div>
+      <div id="t4-demo-phases"></div>
+      <div class="btn-row"><button class="btn btn-secondary" onclick="window.print()">Print / Export Demo Script</button></div>
+    </div>
+    <div class="inner-tab-content" id="t4-tab-redflags">
+      <div class="sub-header"><div class="sub-kicker">Tab 3 of 4</div><div class="sub-title">Red Flag Identification Checklist</div><div class="sub-desc">Check off red flags as you encounter them. Multiple checked items in any category warrants serious scrutiny before advancing.</div></div>
+      <div id="t4-redflags-body"></div>
+      <div class="btn-row"><button class="btn btn-secondary" onclick="window.print()">Print / Export Checklist</button></div>
+    </div>
+    <div class="inner-tab-content" id="t4-tab-refcheck">
+      <div class="sub-header"><div class="sub-kicker">Tab 4 of 4</div><div class="sub-title">Reference Check Guide</div><div class="sub-desc">Conduct reference calls with at least two customers per vendor finalist. These questions surface what vendor sales calls won't tell you.</div></div>
+      <div id="t4-refcheck-body"></div>
+      <div class="btn-row"><button class="btn btn-secondary" onclick="window.print()">Print / Export Reference Guide</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TOOL 5: DATA MIGRATION AUDIT
+============================================================ -->
+<div class="tool-panel" id="panel-t5">
+  <div class="panel-wrap">
+    <div class="tool-section-header">
+      <div class="tool-kicker">Tool 05 · Assessment Tool</div>
+      <h2 class="tool-title">Data Migration Readiness Audit</h2>
+      <p class="tool-desc">Assess the quality and completeness of your migration data. Identify what requires remediation — and what will create go-live risk if left unaddressed.</p>
+    </div>
+    <div class="gate-card">
+      <div class="gate-kicker">Scope Check</div>
+      <div class="gate-title">First-Time ERP or Existing System?</div>
+      <div class="gate-desc">This audit applies to organizations migrating from an existing system. If this is your first ERP with no prior system, data migration is not applicable.</div>
+      <div class="gate-q"><div class="gate-q-text">Does your organization have an existing accounting system or financial records to be migrated into the new system?</div><div class="gate-radio"><label><input type="radio" name="t5scope" value="yes" onchange="t5CheckScope()"> Yes</label><label><input type="radio" name="t5scope" value="no" onchange="t5CheckScope()"> No</label></div></div>
+      <div class="gate-result out-scope" id="t5-scope-na" style="display:none;">✓ <strong>This audit does not apply.</strong> No legacy data to migrate. Proceed to Tool 06 (Implementation Playbook).</div>
+      <div class="gate-result in-scope" id="t5-scope-in" style="display:none;">✓ <strong>Complete the audit below.</strong> Work through each data category to assess quality and identify remediation priorities.</div>
+    </div>
+    <div class="sc-card">
+      <div class="sc-card-title">Audit Setup</div>
+      <div class="field-row cols-3">
+        <div class="field-group"><label class="field-label">Current System</label><input class="field-input" type="text" placeholder="e.g., QuickBooks Desktop"></div>
+        <div class="field-group"><label class="field-label">Target System</label><input class="field-input" type="text" placeholder="e.g., Sage Intacct"></div>
+        <div class="field-group"><label class="field-label">Go-Live Target</label><input class="field-input" type="text" placeholder="e.g., Q4 2026"></div>
+      </div>
+    </div>
+    <div id="t5-categories-body"></div>
+    <div class="sc-card" style="background:var(--slate);border:none;">
+      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:8px;">Migration Strategy</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;color:#fff;letter-spacing:-0.02em;margin-bottom:14px;">Select Your Migration Approach</div>
+      <div class="strategy-grid" style="margin-bottom:0;">
+        <div class="strat-opt" style="background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.12);" onclick="t5SelectStrategy(this,'bigbang')"><div class="so-name" style="color:#fff;">Big Bang</div><div class="so-desc" style="color:rgba(255,255,255,0.5);">All data migrated in a single cutover. Old system retired on go-live day.</div><div class="so-when">Best when: clean data, tight timeline</div></div>
+        <div class="strat-opt" style="background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.12);" onclick="t5SelectStrategy(this,'phased')"><div class="so-name" style="color:#fff;">Phased Migration</div><div class="so-desc" style="color:rgba(255,255,255,0.5);">Migrate in waves by module or data type. Reduces risk, extends timeline.</div><div class="so-when">Best when: complex data, mixed quality</div></div>
+        <div class="strat-opt" style="background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.12);" onclick="t5SelectStrategy(this,'parallel')"><div class="so-name" style="color:#fff;">Parallel Run</div><div class="so-desc" style="color:rgba(255,255,255,0.5);">Both systems operate simultaneously during transition.</div><div class="so-when">Best when: GovCon with active contracts</div></div>
+      </div>
+      <div class="strategy-rec" id="t5-strategy-rec" style="display:none;background:rgba(44,91,227,0.15);border:1px solid rgba(44,91,227,0.25);border-radius:8px;padding:12px 16px;margin-top:12px;font-size:0.88rem;color:rgba(255,255,255,0.75);line-height:1.6;"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="t5Generate()">Generate Remediation Priority Report</button>
+      <button class="btn btn-secondary" onclick="window.print()">Print / Save PDF</button>
+    </div>
+    <div class="sc-card" id="t5-results" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TOOL 6: IMPLEMENTATION PLAYBOOK
+============================================================ -->
+<div class="tool-panel" id="panel-t6">
+  <div class="panel-wrap">
+    <div class="tool-section-header">
+      <div class="tool-kicker">Tool 06 · Implementation Planning</div>
+      <h2 class="tool-title">ERP Selection &amp; Implementation Playbook</h2>
+      <p class="tool-desc">Step-by-step guidance from requirements through go-live — with project charter, contract review checklist, go-live readiness assessment, and the ten most common ERP failure modes.</p>
+    </div>
+    <div class="inner-tab-bar" id="t6-tabs">
+      <button class="inner-tab active" onclick="switchInnerTab('t6','phases')">Phase Roadmap</button>
+      <button class="inner-tab" onclick="switchInnerTab('t6','charter')">Project Charter</button>
+      <button class="inner-tab" onclick="switchInnerTab('t6','contract')">Contract Review</button>
+      <button class="inner-tab" onclick="switchInnerTab('t6','golive')">Go-Live Readiness</button>
+      <button class="inner-tab" onclick="switchInnerTab('t6','failures')">Failure Modes</button>
+    </div>
+    <div class="inner-tab-content active" id="t6-tab-phases">
+      <div class="sub-header"><div class="sub-kicker">Tab 1 of 5</div><div class="sub-title">ERP Selection &amp; Implementation Roadmap</div><div class="sub-desc">Six phases from requirements documentation to post-go-live stabilization.</div></div>
+      <div id="t6-phases-body"></div>
+      <div class="btn-row"><button class="btn btn-secondary" onclick="window.print()">Print / Save Roadmap</button></div>
+    </div>
+    <div class="inner-tab-content" id="t6-tab-charter">
+      <div class="sub-header"><div class="sub-kicker">Tab 2 of 5</div><div class="sub-title">Project Charter Template</div><div class="sub-desc">Complete at implementation start and distribute to all stakeholders. Establishes shared ownership, decision rights, and a baseline for scope.</div></div>
+      <div id="t6-charter-body"></div>
+      <div class="btn-row"><button class="btn btn-secondary" onclick="window.print()">Print / Save Charter</button></div>
+    </div>
+    <div class="inner-tab-content" id="t6-tab-contract">
+      <div class="sub-header"><div class="sub-kicker">Tab 3 of 5</div><div class="sub-title">Vendor Contract Review Checklist</div><div class="sub-desc">Review every item before signing. <strong>CRITICAL</strong> items are non-negotiable. <strong>NEGOTIATE</strong> items are where you typically have leverage.</div></div>
+      <div id="t6-contract-body"></div>
+      <div class="btn-row"><button class="btn btn-secondary" onclick="window.print()">Print / Save Checklist</button></div>
+    </div>
+    <div class="inner-tab-content" id="t6-tab-golive">
+      <div class="sub-header"><div class="sub-kicker">Tab 4 of 5</div><div class="sub-title">Go-Live Readiness Assessment</div><div class="sub-desc">Complete no earlier than 2 weeks before your planned go-live. Any <strong>BLOCKER</strong> item must be resolved before proceeding.</div></div>
+      <div id="t6-golive-body"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="t6ScoreGoLive()">Score Go-Live Readiness</button>
+        <button class="btn btn-secondary" onclick="window.print()">Print</button>
+      </div>
+      <div class="golive-score-wrap" id="t6-golive-score" style="display:none;">
+        <div class="gsw-label">Go-Live Readiness Score</div>
+        <div class="gsw-score" id="t6-gsw-score"></div>
+        <div class="gsw-verdict" id="t6-gsw-verdict"></div>
+        <div class="gsw-items" id="t6-gsw-items"></div>
+      </div>
+    </div>
+    <div class="inner-tab-content" id="t6-tab-failures">
+      <div class="sub-header"><div class="sub-kicker">Tab 5 of 5</div><div class="sub-title">The Ten Most Common ERP Failure Modes</div><div class="sub-desc">The ten reasons ERP implementations fail — and how to avoid each one.</div></div>
+      <div id="t6-failures-body"></div>
+      <div class="retainer-block"><div class="rb-text"><div class="rb-title">Need implementation oversight support?</div><div class="rb-desc">Savanna Consulting's spot advisory retainer provides independent implementation oversight — reviewing milestones and pressure-testing go-live decisions.</div></div><a href="https://app.usemotion.com/meet/Savanna-Consulting/intro-strategy" class="rb-link" target="_blank">Book a Strategy Call</a></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     HELP & RESOURCES PANEL
+============================================================ -->
+<div class="tool-panel" id="panel-help">
+  <div class="panel-wrap">
+
+    <!-- ═══════════════════════════════════════════════════════
+         HELP & RESOURCES SECTION
+         ═══════════════════════════════════════════════════════ -->
+
+    <div class="tool-section-header">
+      <div class="tool-kicker">eRA · Enterprise Readiness Analyzer</div>
+      <h2 class="tool-title">Help &amp; Resources</h2>
+      <p class="tool-desc">Everything you need to get the most from eRA — step-by-step guidance, video walkthroughs, direct support, and the full User Guide.</p>
+    </div>
+
+    <!-- SECTION: Saving Your Work -->
+    <div class="sc-card" style="margin-bottom:20px;">
+      <div class="sc-card-title">Saving Your Work</div>
+      <div style="background:rgba(230,126,34,0.07);border:1px solid rgba(230,126,34,0.22);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:14px;">
+        <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#B7600F;margin-bottom:4px;">Important</div>
+        <div style="font-size:0.88rem;color:var(--ink);line-height:1.6;">eRA stores your data in the current browser session. <strong>If you close or refresh the tab, your data will be reset.</strong> Save your work to PDF after completing each tool.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:flex-start;gap:10px;"><div style="width:22px;height:22px;border-radius:6px;background:rgba(112,48,160,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><span style="font-size:0.72rem;font-weight:700;color:#7030A0;">1</span></div><div style="font-size:0.88rem;color:var(--slate);line-height:1.55;">Complete a tool section, then click the <strong>Print / Save PDF</strong> button at the bottom of that tool</div></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;"><div style="width:22px;height:22px;border-radius:6px;background:rgba(112,48,160,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><span style="font-size:0.72rem;font-weight:700;color:#7030A0;">2</span></div><div style="font-size:0.88rem;color:var(--slate);line-height:1.55;">In the print dialog, choose <strong>Save as PDF</strong> as the destination</div></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;"><div style="width:22px;height:22px;border-radius:6px;background:rgba(112,48,160,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><span style="font-size:0.72rem;font-weight:700;color:#7030A0;">3</span></div><div style="font-size:0.88rem;color:var(--slate);line-height:1.55;">Use the <strong>Dashboard &#8594; Print Summary Report</strong> button after completing all tools for a single stakeholder-ready PDF</div></div>
+      </div>
+    </div>
+
+    <!-- Getting Started -->
+    <div class="sc-card" style="margin-bottom:20px;">
+      <div class="sc-card-title">Getting Started</div>
+      <p style="font-size:0.9rem;color:var(--ink-soft);margin-bottom:16px;line-height:1.65;">Work through the six tools in order for best results. Each tool feeds the next &#8212; your Requirements Scorecard output shapes your RFI, your TCO comparison, and your demo agenda.</p>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+
+        <!-- Dashboard row -->
+        <div id="gs-dash-row" style="background:var(--fog);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;transition:border-color .15s,box-shadow .15s;">
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;" onclick="toggleGsDash()">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(112,48,160,0.12);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">&#11041;</div>
+            <div style="flex:1;"><div style="font-size:0.9rem;font-weight:600;color:var(--slate);">Dashboard</div><div style="font-size:0.78rem;color:var(--ink-soft);">Live summary &#8212; results update as you complete each tool</div></div>
+            <div id="gs-dash-chevron" style="font-size:0.75rem;color:var(--action-dark);font-weight:600;white-space:nowrap;">Learn more &#9662;</div>
+          </div>
+          <div id="gs-dash-body" style="display:none;padding:0 14px 14px 14px;border-top:1px solid var(--border);">
+            <div style="padding-top:14px;">
+              <p style="font-size:0.82rem;color:var(--ink);line-height:1.65;margin-bottom:12px;">eRA is a self-service ERP evaluation system for small organizations making their first serious systems decision, or replacing an ERP that no longer fits. Six interactive tools guide you through every critical phase of the selection process, and a live dashboard ties them together.</p>
+              <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:14px;">
+                <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:7px 10px;text-align:left;">Audience</th><th style="padding:7px 10px;text-align:left;">Best Use</th></tr></thead>
+                <tbody>
+                  <tr style="background:var(--white);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Government contractors</td><td style="padding:7px 10px;">Selecting an ERP that needs to pass DCAA pre-award accounting system review</td></tr>
+                  <tr style="background:var(--fog);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Nonprofits</td><td style="padding:7px 10px;">Evaluating fund accounting systems under 2 CFR 200 federal award requirements</td></tr>
+                  <tr style="background:var(--white);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Growing businesses</td><td style="padding:7px 10px;">Making a first serious ERP decision after outgrowing QuickBooks or similar tools</td></tr>
+                </tbody>
+              </table>
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:6px;">Navigating eRA</p>
+              <p style="font-size:0.82rem;color:var(--ink);line-height:1.6;margin-bottom:12px;">The left sidebar contains all navigation. Click any tool name to jump directly to it. The Dashboard is always at the top. As you complete tools, it populates with live results including vendor scores, TCO comparison, go-live readiness, and key risk flags.</p>
+              <div style="background:rgba(230,126,34,0.07);border:1px solid rgba(230,126,34,0.22);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;">
+                <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#B7600F;margin-bottom:3px;">Remember</div>
+                <div style="font-size:0.82rem;color:var(--ink);line-height:1.55;">eRA saves data in your browser session only. If you close the tab, your data will reset. Save a PDF of each tool before closing.</div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <a href="https://youtu.be/bQmww7xrfHM" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#7030A0;color:#fff;border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;text-decoration:none;">&#9654; Watch Product Walkthrough</a>
+                <button onclick="switchTool('dash')" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--fog);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;color:var(--slate);cursor:pointer;">Open Dashboard &#8594;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>function toggleGsDash(){var b=document.getElementById('gs-dash-body');var c=document.getElementById('gs-dash-chevron');var r=document.getElementById('gs-dash-row');var o=b.style.display!=='none';b.style.display=o?'none':'block';c.textContent=o?'Learn more ▾':'Close ▴';r.style.borderColor=o?'var(--border)':'rgba(112,48,160,0.35)';r.style.boxShadow=o?'':'var(--shadow-md)';}</script>
+
+        <!-- Tool 01 -->
+        <div id="gs-t1-row" style="background:var(--fog);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;transition:border-color .15s,box-shadow .15s;">
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;" onclick="toggleGsT1()">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(112,48,160,0.12);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:0.85rem;font-weight:700;color:#7030A0;flex-shrink:0;">01</div>
+            <div style="flex:1;"><div style="font-size:0.9rem;font-weight:600;color:var(--slate);">Requirements Scorecard</div><div style="font-size:0.78rem;color:var(--ink-soft);">Score up to 3 vendors across 34 weighted criteria</div></div>
+            <div id="gs-t1-chevron" style="font-size:0.75rem;color:var(--action-dark);font-weight:600;white-space:nowrap;">Learn more &#9662;</div>
+          </div>
+          <div id="gs-t1-body" style="display:none;padding:0 14px 14px 14px;border-top:1px solid var(--border);">
+            <div style="padding-top:14px;">
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:4px;">What It Does</p>
+              <p style="font-size:0.82rem;color:var(--ink);line-height:1.65;margin-bottom:12px;">Tool 01 is the foundation of your entire evaluation. It walks you through five requirement categories and lets you score each vendor against each requirement, weighted by importance. The result is a comparable total score per vendor that feeds the dashboard automatically.</p>
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:6px;">What It Covers</p>
+              <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:14px;">
+                <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:7px 10px;text-align:left;">Category</th><th style="padding:7px 10px;text-align:left;">Focus</th></tr></thead>
+                <tbody>
+                  <tr style="background:var(--white);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Functional Capabilities</td><td style="padding:7px 10px;">Core accounting, project tracking, reporting, and integration features</td></tr>
+                  <tr style="background:var(--fog);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Compliance &amp; Regulatory</td><td style="padding:7px 10px;">DCAA, 2 CFR 200, and other regulatory requirements (tagged by audience)</td></tr>
+                  <tr style="background:var(--white);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Implementation &amp; Support</td><td style="padding:7px 10px;">Vendor implementation approach, timeline, and post-go-live support model</td></tr>
+                  <tr style="background:var(--fog);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Vendor Stability</td><td style="padding:7px 10px;">Financial health, customer base, product roadmap, and reference quality</td></tr>
+                  <tr style="background:var(--white);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Cost &amp; Commercial Terms</td><td style="padding:7px 10px;">Pricing structure, contract terms, and total cost transparency</td></tr>
+                </tbody>
+              </table>
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:6px;">How to Use It</p>
+              <ol style="margin:0 0 12px 18px;padding:0;font-size:0.82rem;color:var(--ink);line-height:1.7;">
+                <li>Enter your organization name and the names of up to three vendors</li>
+                <li>Work through each requirement category and score each vendor from 0 (does not meet) to 4 (exceeds requirements)</li>
+                <li>Pay close attention to Compliance criteria &#8212; GovCon and Nonprofit items are tagged</li>
+                <li>Do not skip requirements you are unsure about &#8212; score them 0 or 1 and note the gap</li>
+                <li>Click Generate Scorecard Results to see ranked vendor scores by section and overall</li>
+              </ol>
+              <div style="background:rgba(230,126,34,0.07);border:1px solid rgba(230,126,34,0.22);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;">
+                <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#B7600F;margin-bottom:3px;">GovCon Note</div>
+                <div style="font-size:0.82rem;color:var(--ink);line-height:1.55;">Criteria tagged as GovCon are specifically relevant to DCAA accounting system adequacy. These carry higher weights and should be scored carefully.</div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <a href="https://youtu.be/fYiVNRUo7k0" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#7030A0;color:#fff;border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;text-decoration:none;">&#9654; Watch How-To Video</a>
+                <button onclick="switchTool('t1')" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--fog);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;color:var(--slate);cursor:pointer;">Open Tool 01 &#8594;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>function toggleGsT1(){var b=document.getElementById('gs-t1-body');var c=document.getElementById('gs-t1-chevron');var r=document.getElementById('gs-t1-row');var o=b.style.display!=='none';b.style.display=o?'none':'block';c.textContent=o?'Learn more ▾':'Close ▴';r.style.borderColor=o?'var(--border)':'rgba(112,48,160,0.35)';r.style.boxShadow=o?'':'var(--shadow-md)';}</script>
+
+        <!-- Tool 02 -->
+        <div id="gs-t2-row" style="background:var(--fog);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;transition:border-color .15s,box-shadow .15s;">
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;" onclick="toggleGsT2()">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(112,48,160,0.12);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:0.85rem;font-weight:700;color:#7030A0;flex-shrink:0;">02</div>
+            <div style="flex:1;"><div style="font-size:0.9rem;font-weight:600;color:var(--slate);">3-Year TCO Calculator</div><div style="font-size:0.78rem;color:var(--ink-soft);">Model the true 3-year cost &#8212; vendor fees, implementation, and internal staff time</div></div>
+            <div id="gs-t2-chevron" style="font-size:0.75rem;color:var(--action-dark);font-weight:600;white-space:nowrap;">Learn more &#9662;</div>
+          </div>
+          <div id="gs-t2-body" style="display:none;padding:0 14px 14px 14px;border-top:1px solid var(--border);">
+            <div style="padding-top:14px;">
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:4px;">What It Does</p>
+              <p style="font-size:0.82rem;color:var(--ink);line-height:1.65;margin-bottom:12px;">Tool 02 reveals the gap between what vendors quote and what an ERP actually costs over three years. It captures Year 1 implementation costs, Years 2-3 recurring costs, and internal staff time &#8212; the hidden cost most organizations dramatically underestimate.</p>
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:6px;">What It Covers</p>
+              <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:14px;">
+                <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:7px 10px;text-align:left;">Cost Category</th><th style="padding:7px 10px;text-align:left;">What to Enter</th></tr></thead>
+                <tbody>
+                  <tr style="background:var(--white);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Year 1 Costs</td><td style="padding:7px 10px;">License fees, implementation services, customization, training, data migration, first-year support</td></tr>
+                  <tr style="background:var(--fog);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Years 2-3 Recurring</td><td style="padding:7px 10px;">Annual subscription or maintenance fees and ongoing support costs</td></tr>
+                  <tr style="background:var(--white);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Internal Costs</td><td style="padding:7px 10px;">Project lead rate and hours, staff training hours, data prep hours, productivity loss during go-live</td></tr>
+                </tbody>
+              </table>
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:6px;">How to Use It</p>
+              <ol style="margin:0 0 12px 18px;padding:0;font-size:0.82rem;color:var(--ink);line-height:1.7;">
+                <li>Enter vendor names in Setup (these carry over from Tool 01 if already entered)</li>
+                <li>Enter Year 1 costs for each vendor from written vendor proposals, not verbal quotes</li>
+                <li>Enter Years 2-3 recurring costs including annual subscription and maintenance</li>
+                <li>Complete the internal cost estimator honestly, including staff time and productivity loss</li>
+                <li>Click Calculate 3-Year TCO to see a side-by-side comparison with year-by-year breakdown</li>
+              </ol>
+              <div style="background:rgba(39,174,96,0.07);border:1px solid rgba(39,174,96,0.22);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;">
+                <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1E8449;margin-bottom:3px;">Key Insight</div>
+                <div style="font-size:0.82rem;color:var(--ink);line-height:1.55;">The internal cost estimator often surfaces $50,000-$150,000 in costs that never appear in vendor proposals. Complete it honestly to get an accurate comparison.</div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <a href="https://youtu.be/ORoRauKbA9k" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#7030A0;color:#fff;border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;text-decoration:none;">&#9654; Watch How-To Video</a>
+                <button onclick="switchTool('t2')" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--fog);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;color:var(--slate);cursor:pointer;">Open Tool 02 &#8594;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>function toggleGsT2(){var b=document.getElementById('gs-t2-body');var c=document.getElementById('gs-t2-chevron');var r=document.getElementById('gs-t2-row');var o=b.style.display!=='none';b.style.display=o?'none':'block';c.textContent=o?'Learn more ▾':'Close ▴';r.style.borderColor=o?'var(--border)':'rgba(112,48,160,0.35)';r.style.boxShadow=o?'':'var(--shadow-md)';}</script>
+
+        <!-- Tool 03 -->
+        <div id="gs-t3-row" style="background:var(--fog);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;transition:border-color .15s,box-shadow .15s;">
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;" onclick="toggleGsT3()">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(112,48,160,0.12);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:0.85rem;font-weight:700;color:#7030A0;flex-shrink:0;">03</div>
+            <div style="flex:1;"><div style="font-size:0.9rem;font-weight:600;color:var(--slate);">DCAA Readiness Guide</div><div style="font-size:0.78rem;color:var(--ink-soft);">For government contractors &#8212; assess accounting system adequacy before vendor selection</div></div>
+            <div id="gs-t3-chevron" style="font-size:0.75rem;color:var(--action-dark);font-weight:600;white-space:nowrap;">Learn more &#9662;</div>
+          </div>
+          <div id="gs-t3-body" style="display:none;padding:0 14px 14px 14px;border-top:1px solid var(--border);">
+            <div style="padding-top:14px;">
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:4px;">What It Does</p>
+              <p style="font-size:0.82rem;color:var(--ink);line-height:1.65;margin-bottom:12px;">Tool 03 is built specifically for government contractors. It maps DCAA SF 1408 pre-award accounting system requirements to your ERP evaluation, identifying gaps before they become findings. It includes a scope gate, a full readiness assessment, and a prioritized action plan.</p>
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:6px;">What It Covers</p>
+              <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:14px;">
+                <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:7px 10px;text-align:left;">Area</th><th style="padding:7px 10px;text-align:left;">Focus</th></tr></thead>
+                <tbody>
+                  <tr style="background:var(--white);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Scope Determination</td><td style="padding:7px 10px;">Two questions establish whether DCAA compliance applies to your contracts</td></tr>
+                  <tr style="background:var(--fog);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Job Cost Accounting</td><td style="padding:7px 10px;">Ability to track costs by contract, CLIN, and indirect pool</td></tr>
+                  <tr style="background:var(--white);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Timekeeping &amp; Labor</td><td style="padding:7px 10px;">Daily labor recording, supervisor approval, and audit trail requirements</td></tr>
+                  <tr style="background:var(--fog);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Indirect Rates &amp; Unallowables</td><td style="padding:7px 10px;">Rate structure, cost pools, and exclusion of unallowable costs per FAR Part 31</td></tr>
+                </tbody>
+              </table>
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:6px;">How to Use It</p>
+              <ol style="margin:0 0 12px 18px;padding:0;font-size:0.82rem;color:var(--ink);line-height:1.7;">
+                <li>Complete the Scope Determination first to confirm whether DCAA applies to your contracts</li>
+                <li>If in scope, work through the full assessment using the 0-4 scoring scale</li>
+                <li>Score conservatively &#8212; DCAA auditors will be</li>
+                <li>Click Generate Readiness Report to receive a prioritized action list and risk rating</li>
+              </ol>
+              <div style="background:rgba(39,174,96,0.07);border:1px solid rgba(39,174,96,0.22);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;">
+                <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1E8449;margin-bottom:3px;">Tip</div>
+                <div style="font-size:0.82rem;color:var(--ink);line-height:1.55;">If DCAA does not apply to your current contracts, you can still run this tool as a future-readiness check if you plan to pursue cost-type vehicles later.</div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <a href="https://youtu.be/kmgJSUL6jDE" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#7030A0;color:#fff;border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;text-decoration:none;">&#9654; Watch How-To Video</a>
+                <button onclick="switchTool('t3')" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--fog);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;color:var(--slate);cursor:pointer;">Open Tool 03 &#8594;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>function toggleGsT3(){var b=document.getElementById('gs-t3-body');var c=document.getElementById('gs-t3-chevron');var r=document.getElementById('gs-t3-row');var o=b.style.display!=='none';b.style.display=o?'none':'block';c.textContent=o?'Learn more ▾':'Close ▴';r.style.borderColor=o?'var(--border)':'rgba(112,48,160,0.35)';r.style.boxShadow=o?'':'var(--shadow-md)';}</script>
+
+        <!-- Tool 04 -->
+        <div id="gs-t4-row" style="background:var(--fog);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;transition:border-color .15s,box-shadow .15s;">
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;" onclick="toggleGsT4()">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(112,48,160,0.12);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:0.85rem;font-weight:700;color:#7030A0;flex-shrink:0;">04</div>
+            <div style="flex:1;"><div style="font-size:0.9rem;font-weight:600;color:var(--slate);">RFI &amp; Demo Script</div><div style="font-size:0.78rem;color:var(--ink-soft);">Control vendor conversations &#8212; structured RFI, scripted demo, red flags, references</div></div>
+            <div id="gs-t4-chevron" style="font-size:0.75rem;color:var(--action-dark);font-weight:600;white-space:nowrap;">Learn more &#9662;</div>
+          </div>
+          <div id="gs-t4-body" style="display:none;padding:0 14px 14px 14px;border-top:1px solid var(--border);">
+            <div style="padding-top:14px;">
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:4px;">What It Does</p>
+              <p style="font-size:0.82rem;color:var(--ink);line-height:1.65;margin-bottom:12px;">Tool 04 gives you the materials to run a disciplined, comparable vendor evaluation process. Without a structured script, vendor demos show you what looks impressive rather than what you actually need. This tool flips that dynamic.</p>
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:6px;">The Four Tabs Inside Tool 04</p>
+              <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:14px;">
+                <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:7px 10px;text-align:left;">Tab</th><th style="padding:7px 10px;text-align:left;">What It Contains</th></tr></thead>
+                <tbody>
+                  <tr style="background:var(--white);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">RFI Template</td><td style="padding:7px 10px;">Structured questions to send vendors before demos, covering functional requirements, compliance, implementation, and pricing</td></tr>
+                  <tr style="background:var(--fog);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Demo Script</td><td style="padding:7px 10px;">Scripted agenda ensuring every vendor shows the same capabilities in the same order</td></tr>
+                  <tr style="background:var(--white);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Red Flag Checklist</td><td style="padding:7px 10px;">Warning signs to watch for during demos and vendor conversations, organized by category</td></tr>
+                  <tr style="background:var(--fog);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Reference Check Guide</td><td style="padding:7px 10px;">Structured questions for calling vendor references, organized by topic</td></tr>
+                </tbody>
+              </table>
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:6px;">How to Use It</p>
+              <ol style="margin:0 0 12px 18px;padding:0;font-size:0.82rem;color:var(--ink);line-height:1.7;">
+                <li>Send the RFI Template to shortlisted vendors at least 2 weeks before demos</li>
+                <li>Run every demo using the Demo Script &#8212; do not let vendors control the agenda</li>
+                <li>Work through the Red Flag Checklist in real time during each demo</li>
+                <li>Call at least two references per vendor using the Reference Check Guide before deciding</li>
+              </ol>
+              <div style="background:rgba(192,57,43,0.06);border:1px solid rgba(192,57,43,0.2);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;">
+                <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#C0392B;margin-bottom:3px;">Important</div>
+                <div style="font-size:0.82rem;color:var(--ink);line-height:1.55;">Never make a final vendor selection without calling references. Vendor demos are sales presentations. References are reality checks.</div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <a href="https://youtu.be/cycy-Ne37uo" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#7030A0;color:#fff;border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;text-decoration:none;">&#9654; Watch How-To Video</a>
+                <button onclick="switchTool('t4')" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--fog);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;color:var(--slate);cursor:pointer;">Open Tool 04 &#8594;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>function toggleGsT4(){var b=document.getElementById('gs-t4-body');var c=document.getElementById('gs-t4-chevron');var r=document.getElementById('gs-t4-row');var o=b.style.display!=='none';b.style.display=o?'none':'block';c.textContent=o?'Learn more ▾':'Close ▴';r.style.borderColor=o?'var(--border)':'rgba(112,48,160,0.35)';r.style.boxShadow=o?'':'var(--shadow-md)';}</script>
+
+        <!-- Tool 05 -->
+        <div id="gs-t5-row" style="background:var(--fog);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;transition:border-color .15s,box-shadow .15s;">
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;" onclick="toggleGsT5()">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(112,48,160,0.12);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:0.85rem;font-weight:700;color:#7030A0;flex-shrink:0;">05</div>
+            <div style="flex:1;"><div style="font-size:0.9rem;font-weight:600;color:var(--slate);">Data Migration Audit</div><div style="font-size:0.78rem;color:var(--ink-soft);">Assess migration data quality and choose the right migration strategy</div></div>
+            <div id="gs-t5-chevron" style="font-size:0.75rem;color:var(--action-dark);font-weight:600;white-space:nowrap;">Learn more &#9662;</div>
+          </div>
+          <div id="gs-t5-body" style="display:none;padding:0 14px 14px 14px;border-top:1px solid var(--border);">
+            <div style="padding-top:14px;">
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:4px;">What It Does</p>
+              <p style="font-size:0.82rem;color:var(--ink);line-height:1.65;margin-bottom:12px;">Tool 05 is a pre-migration risk assessment that surfaces data quality issues before they become go-live problems. It covers chart of accounts, vendor master, customer master, open transactions, historical data, and fixed assets &#8212; and helps you choose the right migration strategy.</p>
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:6px;">Data Categories Assessed</p>
+              <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:14px;">
+                <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:7px 10px;text-align:left;">Category</th><th style="padding:7px 10px;text-align:left;">What Is Evaluated</th></tr></thead>
+                <tbody>
+                  <tr style="background:var(--white);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Chart of Accounts</td><td style="padding:7px 10px;">Structure, cleanliness, and readiness for migration to the new system</td></tr>
+                  <tr style="background:var(--fog);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Vendor &amp; Customer Masters</td><td style="padding:7px 10px;">Completeness, duplicates, and format compatibility</td></tr>
+                  <tr style="background:var(--white);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Open Transactions</td><td style="padding:7px 10px;">Outstanding invoices, POs, and contracts that must carry over at cutover</td></tr>
+                  <tr style="background:var(--fog);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Historical Data &amp; Fixed Assets</td><td style="padding:7px 10px;">Volume, format, and retention requirements for historical records</td></tr>
+                </tbody>
+              </table>
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:6px;">How to Use It</p>
+              <ol style="margin:0 0 12px 18px;padding:0;font-size:0.82rem;color:var(--ink);line-height:1.7;">
+                <li>Check the scope gate first &#8212; if this is your first ERP with no prior system, you can skip to Tool 06</li>
+                <li>Enter your current system, target system, and go-live target date</li>
+                <li>Work through each data category and assess completeness, cleanliness, and format</li>
+                <li>Select your migration strategy: Big Bang, Phased, or Parallel Run</li>
+                <li>Click Generate Remediation Priority Report to get a prioritized remediation list</li>
+              </ol>
+              <div style="background:rgba(230,126,34,0.07);border:1px solid rgba(230,126,34,0.22);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;">
+                <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#B7600F;margin-bottom:3px;">GovCon Recommendation</div>
+                <div style="font-size:0.82rem;color:var(--ink);line-height:1.55;">If you have active contracts at go-live, the Parallel Run strategy is strongly recommended. Running both systems simultaneously protects your billing continuity during transition.</div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <a href="https://youtu.be/Hglrf4KWw60" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#7030A0;color:#fff;border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;text-decoration:none;">&#9654; Watch How-To Video</a>
+                <button onclick="switchTool('t5')" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--fog);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;color:var(--slate);cursor:pointer;">Open Tool 05 &#8594;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>function toggleGsT5(){var b=document.getElementById('gs-t5-body');var c=document.getElementById('gs-t5-chevron');var r=document.getElementById('gs-t5-row');var o=b.style.display!=='none';b.style.display=o?'none':'block';c.textContent=o?'Learn more ▾':'Close ▴';r.style.borderColor=o?'var(--border)':'rgba(112,48,160,0.35)';r.style.boxShadow=o?'':'var(--shadow-md)';}</script>
+
+        <!-- Tool 06 -->
+        <div id="gs-t6-row" style="background:var(--fog);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;transition:border-color .15s,box-shadow .15s;">
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;" onclick="toggleGsT6()">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(112,48,160,0.12);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:0.85rem;font-weight:700;color:#7030A0;flex-shrink:0;">06</div>
+            <div style="flex:1;"><div style="font-size:0.9rem;font-weight:600;color:var(--slate);">Implementation Playbook</div><div style="font-size:0.78rem;color:var(--ink-soft);">Phase roadmap, project charter, contract review, go-live readiness, failure modes</div></div>
+            <div id="gs-t6-chevron" style="font-size:0.75rem;color:var(--action-dark);font-weight:600;white-space:nowrap;">Learn more &#9662;</div>
+          </div>
+          <div id="gs-t6-body" style="display:none;padding:0 14px 14px 14px;border-top:1px solid var(--border);">
+            <div style="padding-top:14px;">
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:4px;">What It Does</p>
+              <p style="font-size:0.82rem;color:var(--ink);line-height:1.65;margin-bottom:12px;">Tool 06 ties the entire evaluation together. It provides a six-phase implementation roadmap, a project charter template, a vendor contract review checklist, a go-live readiness assessment, and a library of the ten most common ERP failure modes with prevention guidance for each.</p>
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:6px;">The Five Tabs Inside Tool 06</p>
+              <table style="width:100%;border-collapse:collapse;font-size:0.82rem;margin-bottom:14px;">
+                <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:7px 10px;text-align:left;">Tab</th><th style="padding:7px 10px;text-align:left;">What It Contains</th></tr></thead>
+                <tbody>
+                  <tr style="background:var(--white);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Phase Roadmap</td><td style="padding:7px 10px;">Six-phase implementation roadmap from requirements through post-go-live stabilization, with tasks and timelines</td></tr>
+                  <tr style="background:var(--fog);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Project Charter</td><td style="padding:7px 10px;">Fill-in template establishing ownership, decision rights, scope boundaries, and escalation paths</td></tr>
+                  <tr style="background:var(--white);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Contract Review Checklist</td><td style="padding:7px 10px;">Items to review before signing any ERP contract. CRITICAL items are non-negotiable; NEGOTIATE items are where you have leverage</td></tr>
+                  <tr style="background:var(--fog);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Go-Live Readiness</td><td style="padding:7px 10px;">Complete no earlier than 2 weeks before planned go-live. Any BLOCKER item must be resolved first</td></tr>
+                  <tr style="background:var(--white);"><td style="padding:7px 10px;font-weight:600;color:var(--slate);">Failure Modes</td><td style="padding:7px 10px;">The ten most common reasons ERP implementations fail, with prevention guidance for each</td></tr>
+                </tbody>
+              </table>
+              <p style="font-size:0.82rem;font-weight:700;color:var(--slate);margin-bottom:6px;">How to Use It</p>
+              <ol style="margin:0 0 12px 18px;padding:0;font-size:0.82rem;color:var(--ink);line-height:1.7;">
+                <li>Start with the Phase Roadmap to understand the full selection timeline before vendor conversations</li>
+                <li>Complete the Project Charter at implementation start and distribute to all stakeholders</li>
+                <li>Use the Contract Review Checklist before signing any vendor agreement</li>
+                <li>Run the Go-Live Readiness Assessment two weeks before your planned cutover date</li>
+                <li>Review the Failure Modes section with your implementation team before go-live</li>
+              </ol>
+              <div style="background:rgba(192,57,43,0.06);border:1px solid rgba(192,57,43,0.2);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;">
+                <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#C0392B;margin-bottom:3px;">Important</div>
+                <div style="font-size:0.82rem;color:var(--ink);line-height:1.55;">Do not sign a vendor contract without reviewing every CRITICAL item in the Contract Review Checklist. These are non-negotiable provisions that protect your organization.</div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <a href="https://youtu.be/Va5fPA8UNhY" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#7030A0;color:#fff;border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;text-decoration:none;">&#9654; Watch How-To Video</a>
+                <button onclick="switchTool('t6')" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--fog);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;color:var(--slate);cursor:pointer;">Open Tool 06 &#8594;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>function toggleGsT6(){var b=document.getElementById('gs-t6-body');var c=document.getElementById('gs-t6-chevron');var r=document.getElementById('gs-t6-row');var o=b.style.display!=='none';b.style.display=o?'none':'block';c.textContent=o?'Learn more ▾':'Close ▴';r.style.borderColor=o?'var(--border)':'rgba(112,48,160,0.35)';r.style.boxShadow=o?'':'var(--shadow-md)';}</script>
+
+      </div>
+    </div>
+
+    <!-- Video Resources -->
+    <div class="sc-card" style="margin-bottom:20px;">
+      <div class="sc-card-title">Video Resources</div>
+      <p style="font-size:0.9rem;color:var(--ink-soft);margin-bottom:16px;line-height:1.65;">Watch the walkthrough before you start, then return to the how-to videos any time you need a refresher. All videos play inline.</p>
+      <div id="yt-rows-container"></div>
+      <script>
+        var ytVideos = [
+          { id:'yt-00', ytId:'bQmww7xrfHM', kicker:'Start here', title:'eRA Product Walkthrough — All Six Tools' },
+          { id:'yt-01', ytId:'fYiVNRUo7k0', kicker:'Tool 01 of 6', title:'How To: Requirements Scorecard' },
+          { id:'yt-02', ytId:'ORoRauKbA9k', kicker:'Tool 02 of 6', title:'How To: 3-Year TCO Calculator' },
+          { id:'yt-03', ytId:'kmgJSUL6jDE', kicker:'Tool 03 of 6', title:'How To: DCAA Readiness Guide' },
+          { id:'yt-04', ytId:'cycy-Ne37uo', kicker:'Tool 04 of 6', title:'How To: RFI &amp; Demo Script' },
+          { id:'yt-05', ytId:'Hglrf4KWw60', kicker:'Tool 05 of 6', title:'How To: Data Migration Audit' },
+          { id:'yt-06', ytId:'Va5fPA8UNhY', kicker:'Tool 06 of 6', title:'How To: Implementation Playbook' }
+        ];
+        function buildYTRows() {
+          var c = document.getElementById('yt-rows-container');
+          c.innerHTML = ytVideos.map(function(v) {
+            return '<div id="' + v.id + '" style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);margin-bottom:10px;overflow:hidden;">' +
+              '<div style="display:flex;align-items:center;gap:14px;padding:14px 16px;cursor:pointer;" onclick="toggleYT(\'' + v.id + '\')">' +
+              '<div style="width:42px;height:42px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:rgba(112,48,160,0.12);">' +
+              '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><polygon points="5,3 13,8 5,13" fill="#7030A0"/></svg></div>' +
+              '<div style="flex:1;"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7030A0;margin-bottom:2px;">' + v.kicker + '</div>' +
+              '<div style="font-family:Space Grotesk,sans-serif;font-size:0.92rem;font-weight:700;color:var(--slate);letter-spacing:-0.02em;">' + v.title + '</div></div>' +
+              '<span style="font-size:0.75rem;font-weight:600;color:var(--action-dark);white-space:nowrap;">Watch ▾</span></div>' +
+              '<div id="' + v.id + '-player" style="display:none;padding:0 16px 16px;"><div id="' + v.id + '-frame" style="position:relative;padding-bottom:56.25%;height:0;border-radius:var(--radius-sm);overflow:hidden;background:#000;"></div></div>' +
+              '</div>';
+          }).join('');
+        }
+        function toggleYT(id) {
+          var player = document.getElementById(id + '-player');
+          var frame = document.getElementById(id + '-frame');
+          var isOpen = player.style.display !== 'none';
+          document.querySelectorAll('[id^="yt-"][id$="-player"]').forEach(function(p) { p.style.display = 'none'; });
+          document.querySelectorAll('[id^="yt-"][id$="-frame"]').forEach(function(f) { f.innerHTML = ''; });
+          if (!isOpen) {
+            player.style.display = 'block';
+            var ytId = ytVideos.find(function(v) { return v.id === id; }).ytId;
+            var iframe = document.createElement('iframe');
+            iframe.src = 'https://www.youtube.com/embed/' + ytId + '?autoplay=1';
+            iframe.allow = 'autoplay; encrypted-media';
+            iframe.allowFullscreen = true;
+            iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;';
+            frame.appendChild(iframe);
+          }
+        }
+        buildYTRows();
+      </script>
+    </div>
+
+    <!-- Get Help -->
+    <div class="sc-card" style="margin-bottom:20px;">
+      <div class="sc-card-title">Get Help</div>
+      <p style="font-size:0.9rem;color:var(--ink-soft);margin-bottom:16px;line-height:1.65;">If you have questions about using eRA, encounter a technical issue, or need help interpreting your results, contact us directly.</p>
+      <a href="mailto:&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#115;&#97;&#118;&#97;&#110;&#110;&#97;&#99;&#111;&#110;&#115;&#117;&#108;&#116;&#46;&#99;&#111;&#109;" style="display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--fog);border:1px solid rgba(112,48,160,0.2);border-radius:var(--radius-md);text-decoration:none;margin-bottom:12px;transition:box-shadow 0.15s;" onmouseover="this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.boxShadow='none'">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(112,48,160,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="4" width="20" height="16" rx="2" stroke="#7030A0" stroke-width="1.8" fill="none"/><polyline points="2,4 12,13 22,4" stroke="#7030A0" stroke-width="1.8" fill="none"/></svg></div>
+        <div style="flex:1;"><div style="font-size:0.92rem;font-weight:600;color:#7030A0;margin-bottom:2px;">&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#115;&#97;&#118;&#97;&#110;&#110;&#97;&#99;&#111;&#110;&#115;&#117;&#108;&#116;&#46;&#99;&#111;&#109;</div><div style="font-size:0.78rem;color:var(--ink-soft);">We respond within one business day</div></div>
+        <div style="font-size:0.78rem;font-weight:600;color:#7030A0;white-space:nowrap;">Email us &#8594;</div>
+      </a>
+      <div style="background:var(--fog);border-radius:var(--radius-sm);padding:12px 16px;font-size:0.82rem;color:var(--ink-soft);line-height:1.6;">When emailing, please include a brief description of which tool you are using and what you are trying to accomplish. Screenshots are always helpful.</div>
+    </div>
+
+    <!-- About eRA -->
+    <div class="sc-card" style="margin-bottom:40px;">
+      <div class="sc-card-title">About eRA</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+        <div style="padding:12px 14px;background:var(--fog);border-radius:var(--radius-sm);"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:4px;">Product</div><div style="font-size:0.88rem;font-weight:600;color:var(--slate);">eRA v1.0</div><div style="font-size:0.78rem;color:var(--ink-soft);">Enterprise Readiness Analyzer</div></div>
+        <div style="padding:12px 14px;background:var(--fog);border-radius:var(--radius-sm);"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:4px;">Publisher</div><div style="font-size:0.88rem;font-weight:600;color:var(--slate);">Savanna Consulting LLC</div><div style="font-size:0.78rem;color:var(--ink-soft);">Baltimore, MD &#183; 2026</div></div>
+        <div style="padding:12px 14px;background:var(--fog);border-radius:var(--radius-sm);"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:4px;">License</div><div style="font-size:0.88rem;font-weight:600;color:var(--slate);">Single-organization use</div><div style="font-size:0.78rem;color:var(--ink-soft);">Not for redistribution</div></div>
+        <div style="padding:12px 14px;background:var(--fog);border-radius:var(--radius-sm);"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:4px;">Website</div><div style="font-size:0.88rem;font-weight:600;color:var(--slate);"><a href="https://savannaconsult.com" target="_blank" style="color:#7030A0;text-decoration:none;">savannaconsult.com</a></div><div style="font-size:0.78rem;color:var(--ink-soft);">ERP &#183; Contracts &#183; Grants</div></div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--ink-soft);line-height:1.6;padding:10px 14px;background:rgba(28,43,53,0.04);border-radius:var(--radius-sm);">This tool does not constitute legal, accounting, or audit advice. Consult qualified advisors before signing ERP contracts or undergoing DCAA review.</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         USER GUIDE SECTION
+         ═══════════════════════════════════════════════════════ -->
+
+    <div id="ug-divider" style="border-top:2px solid var(--border);margin:0 0 40px;position:relative;">
+      <span style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--fog);padding:0 16px;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft);">User Guide</span>
+    </div>
+
+    <!-- Sticky Search Bar -->
+    <div id="ug-search-bar" style="position:sticky;top:0;z-index:100;background:var(--slate);padding:10px 16px;border-radius:var(--radius-sm);margin-bottom:28px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-md);">
+      <label style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.55);white-space:nowrap;">Search Guide</label>
+      <input id="ug-search-input" type="text" placeholder="Type to search…" autocomplete="off"
+        style="flex:1;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:6px 10px;font-size:0.88rem;color:#fff;outline:none;font-family:Arial,sans-serif;"
+        oninput="ugSearch()"
+        onkeydown="if(event.key==='Escape'){ugClearSearch();} if(event.key==='Enter'){ugNavSearch(1);} if(event.key==='ArrowUp'){ugNavSearch(-1);event.preventDefault();} if(event.key==='ArrowDown'){ugNavSearch(1);event.preventDefault();}"
+        onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='rgba(255,255,255,0.2)'">
+      <span id="ug-search-counter" style="font-size:0.78rem;color:rgba(255,255,255,0.5);white-space:nowrap;min-width:40px;text-align:center;"></span>
+      <button onclick="ugNavSearch(-1)" title="Previous match" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:5px;color:#fff;padding:4px 9px;cursor:pointer;font-size:0.82rem;">▲</button>
+      <button onclick="ugNavSearch(1)" title="Next match" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:5px;color:#fff;padding:4px 9px;cursor:pointer;font-size:0.82rem;">▼</button>
+      <button onclick="ugClearSearch()" title="Clear search" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:5px;color:rgba(255,255,255,0.6);padding:4px 9px;cursor:pointer;font-size:0.82rem;">✕</button>
+    </div>
+
+    <!-- Guide Layout: TOC + Content -->
+    <div style="display:flex;gap:32px;align-items:flex-start;">
+
+      <!-- Left Sidebar TOC -->
+      <nav id="ug-toc" style="width:200px;flex-shrink:0;position:sticky;top:68px;max-height:calc(100vh - 100px);overflow-y:auto;">
+        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);">Contents</div>
+        <a href="#ug-s1" class="ug-toc-link" style="display:block;font-size:0.82rem;color:var(--ink-soft);text-decoration:none;padding:4px 8px;border-radius:4px;margin-bottom:2px;border-left:3px solid transparent;">1. Getting Started</a>
+        <a href="#ug-s2" class="ug-toc-link" style="display:block;font-size:0.82rem;color:var(--ink-soft);text-decoration:none;padding:4px 8px;border-radius:4px;margin-bottom:2px;border-left:3px solid transparent;">2. The Dashboard</a>
+        <a href="#ug-s3" class="ug-toc-link" style="display:block;font-size:0.82rem;color:var(--ink-soft);text-decoration:none;padding:4px 8px;border-radius:4px;margin-bottom:2px;border-left:3px solid transparent;">3. The Six Tools</a>
+        <a href="#ug-t01" class="ug-toc-link ug-toc-sub" style="display:block;font-size:0.78rem;color:var(--ink-soft);text-decoration:none;padding:3px 8px 3px 20px;border-radius:4px;margin-bottom:2px;border-left:3px solid transparent;">Tool 01 — Requirements</a>
+        <a href="#ug-t02" class="ug-toc-link ug-toc-sub" style="display:block;font-size:0.78rem;color:var(--ink-soft);text-decoration:none;padding:3px 8px 3px 20px;border-radius:4px;margin-bottom:2px;border-left:3px solid transparent;">Tool 02 — TCO Calculator</a>
+        <a href="#ug-t03" class="ug-toc-link ug-toc-sub" style="display:block;font-size:0.78rem;color:var(--ink-soft);text-decoration:none;padding:3px 8px 3px 20px;border-radius:4px;margin-bottom:2px;border-left:3px solid transparent;">Tool 03 — DCAA Readiness</a>
+        <a href="#ug-t04" class="ug-toc-link ug-toc-sub" style="display:block;font-size:0.78rem;color:var(--ink-soft);text-decoration:none;padding:3px 8px 3px 20px;border-radius:4px;margin-bottom:2px;border-left:3px solid transparent;">Tool 04 — RFI &amp; Demo</a>
+        <a href="#ug-t05" class="ug-toc-link ug-toc-sub" style="display:block;font-size:0.78rem;color:var(--ink-soft);text-decoration:none;padding:3px 8px 3px 20px;border-radius:4px;margin-bottom:2px;border-left:3px solid transparent;">Tool 05 — Data Migration</a>
+        <a href="#ug-t06" class="ug-toc-link ug-toc-sub" style="display:block;font-size:0.78rem;color:var(--ink-soft);text-decoration:none;padding:3px 8px 3px 20px;border-radius:4px;margin-bottom:2px;border-left:3px solid transparent;">Tool 06 — Impl. Playbook</a>
+        <a href="#ug-s4" class="ug-toc-link" style="display:block;font-size:0.82rem;color:var(--ink-soft);text-decoration:none;padding:4px 8px;border-radius:4px;margin-bottom:2px;border-left:3px solid transparent;">4. Recommended Workflow</a>
+        <a href="#ug-s5" class="ug-toc-link" style="display:block;font-size:0.82rem;color:var(--ink-soft);text-decoration:none;padding:4px 8px;border-radius:4px;margin-bottom:2px;border-left:3px solid transparent;">5. Saving Your Work</a>
+        <a href="#ug-s6" class="ug-toc-link" style="display:block;font-size:0.82rem;color:var(--ink-soft);text-decoration:none;padding:4px 8px;border-radius:4px;margin-bottom:2px;border-left:3px solid transparent;">6. Tips by Audience</a>
+        <a href="#ug-s6-1" class="ug-toc-link ug-toc-sub" style="display:block;font-size:0.78rem;color:var(--ink-soft);text-decoration:none;padding:3px 8px 3px 20px;border-radius:4px;margin-bottom:2px;border-left:3px solid transparent;">Government Contractors</a>
+        <a href="#ug-s6-2" class="ug-toc-link ug-toc-sub" style="display:block;font-size:0.78rem;color:var(--ink-soft);text-decoration:none;padding:3px 8px 3px 20px;border-radius:4px;margin-bottom:2px;border-left:3px solid transparent;">Nonprofits</a>
+        <a href="#ug-s6-3" class="ug-toc-link ug-toc-sub" style="display:block;font-size:0.78rem;color:var(--ink-soft);text-decoration:none;padding:3px 8px 3px 20px;border-radius:4px;margin-bottom:2px;border-left:3px solid transparent;">Growing Businesses</a>
+        <a href="#ug-s7" class="ug-toc-link" style="display:block;font-size:0.82rem;color:var(--ink-soft);text-decoration:none;padding:4px 8px;border-radius:4px;margin-bottom:2px;border-left:3px solid transparent;">7. Troubleshooting</a>
+        <a href="#ug-s8" class="ug-toc-link" style="display:block;font-size:0.82rem;color:var(--ink-soft);text-decoration:none;padding:4px 8px;border-radius:4px;margin-bottom:2px;border-left:3px solid transparent;">8. Getting More Help</a>
+      </nav>
+
+      <!-- Guide Body -->
+      <div id="ug-body" style="flex:1;min-width:0;font-family:Georgia,serif;font-size:0.95rem;color:var(--ink);line-height:1.75;">
+
+        <!-- Cover info box -->
+        <div style="background:var(--fog);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px 24px;margin-bottom:36px;">
+          <div style="font-size:1.6rem;font-weight:700;color:var(--slate);font-family:Arial,sans-serif;letter-spacing:-0.02em;margin-bottom:4px;"><em>e</em>RA — Enterprise Readiness Analyzer</div>
+          <div style="font-size:0.9rem;font-weight:600;color:var(--action-dark);margin-bottom:16px;font-family:Arial,sans-serif;">User Guide · v1.0 · by Savanna Consulting</div>
+          <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:0.85rem;">
+            <tr><td style="padding:5px 10px 5px 0;color:var(--ink-soft);font-weight:700;width:130px;vertical-align:top;">Product</td><td style="padding:5px 0;color:var(--slate);">eRA — Enterprise Readiness Analyzer</td></tr>
+            <tr><td style="padding:5px 10px 5px 0;color:var(--ink-soft);font-weight:700;vertical-align:top;">Version</td><td style="padding:5px 0;color:var(--slate);">1.0</td></tr>
+            <tr><td style="padding:5px 10px 5px 0;color:var(--ink-soft);font-weight:700;vertical-align:top;">Format</td><td style="padding:5px 0;color:var(--slate);">Interactive HTML application — runs in any web browser</td></tr>
+            <tr><td style="padding:5px 10px 5px 0;color:var(--ink-soft);font-weight:700;vertical-align:top;">Tools</td><td style="padding:5px 0;color:var(--slate);">6 tools across the full ERP selection lifecycle</td></tr>
+            <tr><td style="padding:5px 10px 5px 0;color:var(--ink-soft);font-weight:700;vertical-align:top;">Audience</td><td style="padding:5px 0;color:var(--slate);">Government contractors, nonprofits, growing businesses</td></tr>
+            <tr><td style="padding:5px 10px 5px 0;color:var(--ink-soft);font-weight:700;vertical-align:top;">Publisher</td><td style="padding:5px 0;color:var(--slate);">Savanna Consulting LLC, Baltimore MD</td></tr>
+            <tr><td style="padding:5px 10px 5px 0;color:var(--ink-soft);font-weight:700;vertical-align:top;">Support</td><td style="padding:5px 0;color:var(--slate);"><a href="https://savannaconsult.com" target="_blank" style="color:var(--action-dark);">savannaconsult.com</a></td></tr>
+          </table>
+          <div style="margin-top:14px;padding:10px 14px;background:rgba(44,91,227,0.06);border-left:4px solid var(--action-dark);border-radius:4px;font-size:0.88rem;color:var(--ink);font-family:Arial,sans-serif;font-style:italic;">
+            eRA does not require installation, software, or an internet connection after download. Open the file in any modern browser and begin. All data stays on your device.
+          </div>
+        </div>
+
+        <!-- ─── SECTION 1 ─── -->
+        <h2 id="ug-s1" style="background:var(--slate);color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;padding:9px 14px;margin:48px 0 20px;scroll-margin-top:62px;border-radius:4px;">1. Getting Started</h2>
+
+        <h3 style="font-family:Arial,sans-serif;font-size:0.97rem;font-weight:700;color:var(--slate);margin:24px 0 8px;">What is eRA?</h3>
+        <p>eRA is a self-service ERP evaluation system built for small organizations making their first serious systems decision — or replacing an ERP that no longer fits. It gives you a structured, vendor-neutral process that covers every critical failure point in the selection journey, from documenting requirements through go-live readiness.</p>
+        <p>The product consists of six interactive tools organized inside a single HTML file. Each tool handles one phase of the ERP selection process. A live dashboard ties them together and updates automatically as you work.</p>
+
+        <h3 style="font-family:Arial,sans-serif;font-size:0.97rem;font-weight:700;color:var(--slate);margin:24px 0 8px;">Who Should Use eRA?</h3>
+        <ul style="margin:0 0 16px 20px;padding:0;">
+          <li style="margin-bottom:6px;">Government contractors selecting an ERP that needs to pass DCAA pre-award accounting system review</li>
+          <li style="margin-bottom:6px;">Nonprofits evaluating fund accounting systems under 2 CFR 200 federal award requirements</li>
+          <li style="margin-bottom:6px;">Growing businesses outgrowing QuickBooks and making their first serious ERP decision</li>
+        </ul>
+
+        <h3 style="font-family:Arial,sans-serif;font-size:0.97rem;font-weight:700;color:var(--slate);margin:24px 0 8px;">How to Open eRA</h3>
+        <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:0.88rem;margin-bottom:16px;">
+          <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:8px 12px;text-align:center;width:48px;">Step</th><th style="padding:8px 12px;text-align:left;width:180px;">Action</th><th style="padding:8px 12px;text-align:left;">Detail</th></tr></thead>
+          <tbody>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">1</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Locate the file</td><td style="padding:8px 12px;">Find the file you downloaded — it is named erp-bundle.html or similar</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">2</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Open in browser</td><td style="padding:8px 12px;">Double-click the file, or right-click and choose Open With → your browser (Chrome, Edge, Firefox, or Safari)</td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">3</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Application loads</td><td style="padding:8px 12px;">The eRA application loads immediately in your browser — no installation required</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">4</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Bookmark it</td><td style="padding:8px 12px;">Bookmark the file location for easy return access</td></tr>
+          </tbody>
+        </table>
+
+        <div style="border-radius:var(--radius-sm);padding:12px 16px;margin:16px 0;display:flex;gap:0;overflow:hidden;">
+          <div style="width:4px;background:var(--signal);border-radius:4px 0 0 4px;flex-shrink:0;margin:-12px 12px -12px -16px;"></div>
+          <div><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--signal);margin-bottom:4px;font-family:Arial,sans-serif;">Important</div><div style="font-size:0.88rem;color:var(--ink);">eRA saves data in your browser's local session. If you close the tab, data may be lost. Use the Print / Save PDF button in each tool to preserve your results before closing.</div></div>
+        </div>
+
+        <h3 style="font-family:Arial,sans-serif;font-size:0.97rem;font-weight:700;color:var(--slate);margin:24px 0 8px;">Navigating eRA</h3>
+        <p>The left sidebar contains all navigation. Click any tool name to jump directly to it. The Dashboard is always accessible at the top of the sidebar.</p>
+        <ul style="margin:0 0 16px 20px;padding:0;">
+          <li style="margin-bottom:6px;">Dashboard — live summary that updates as you complete tools</li>
+          <li style="margin-bottom:6px;">Tools 01–06 — the six evaluation tools, accessed from the sidebar</li>
+          <li style="margin-bottom:6px;">Each tool has a Print / Save PDF button to export your results</li>
+        </ul>
+
+        <div style="border-radius:var(--radius-sm);padding:12px 16px;margin:16px 0;display:flex;gap:0;overflow:hidden;">
+          <div style="width:4px;background:var(--action-dark);border-radius:4px 0 0 4px;flex-shrink:0;margin:-12px 12px -12px -16px;"></div>
+          <div style="background:rgba(44,91,227,0.05);margin:-12px -16px -12px 0;padding:12px 16px 12px 0;flex:1;"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--action-dark);margin-bottom:4px;font-family:Arial,sans-serif;">Recommended Order</div><div style="font-size:0.88rem;color:var(--ink);">Work through the tools in sequence (01 → 06). Tool 1 builds the vendor scorecard that feeds the dashboard. Tool 2 requires vendor names set up first. Tools 3–6 are more independent but build on earlier decisions.</div></div>
+        </div>
+
+        <!-- ─── SECTION 2 ─── -->
+        <h2 id="ug-s2" style="background:var(--slate);color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;padding:9px 14px;margin:48px 0 20px;scroll-margin-top:62px;border-radius:4px;">2. The Dashboard</h2>
+
+        <p>The Dashboard is your home base. It shows a live summary of results from all completed tools and updates automatically as you work through the analyzer. Open it at any time by clicking Dashboard in the sidebar.</p>
+
+        <h3 style="font-family:Arial,sans-serif;font-size:0.97rem;font-weight:700;color:var(--slate);margin:24px 0 8px;">Progress Pills</h3>
+        <p>At the top of the dashboard, six progress pills show the status of each tool at a glance — Not started, In progress, or Complete. Click any pill to jump directly to that tool.</p>
+
+        <h3 style="font-family:Arial,sans-serif;font-size:0.97rem;font-weight:700;color:var(--slate);margin:24px 0 8px;">Dashboard Widgets</h3>
+        <p>As you complete tools, the dashboard populates with four live widgets:</p>
+        <ul style="margin:0 0 16px 20px;padding:0;">
+          <li style="margin-bottom:6px;">Requirements Scorecard — shows vendor scores by section with a winner highlight</li>
+          <li style="margin-bottom:6px;">3-Year TCO — side-by-side cost bars showing total cost of ownership per vendor</li>
+          <li style="margin-bottom:6px;">Go-Live Readiness — your readiness score and any blocker items identified</li>
+          <li style="margin-bottom:6px;">Key Risk Flags — prioritized risk items surfaced across all tools</li>
+        </ul>
+
+        <h3 style="font-family:Arial,sans-serif;font-size:0.97rem;font-weight:700;color:var(--slate);margin:24px 0 8px;">Print Summary Report</h3>
+        <p>Click the Print Summary Report button at the top right of the dashboard to generate a print-ready PDF of your complete ERP evaluation. This is the deliverable you share with stakeholders or keep on file.</p>
+
+        <div style="border-radius:var(--radius-sm);padding:12px 16px;margin:16px 0;display:flex;gap:0;overflow:hidden;">
+          <div style="width:4px;background:var(--teal);border-radius:4px 0 0 4px;flex-shrink:0;margin:-12px 12px -12px -16px;"></div>
+          <div style="background:rgba(61,138,122,0.05);margin:-12px -16px -12px 0;padding:12px 16px 12px 0;flex:1;"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal);margin-bottom:4px;font-family:Arial,sans-serif;">Best Practice</div><div style="font-size:0.88rem;color:var(--ink);">Print the summary report at the end of your evaluation before closing the browser, as your session data does not persist automatically.</div></div>
+        </div>
+
+        <!-- ─── SECTION 3 ─── -->
+        <h2 id="ug-s3" style="background:var(--slate);color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;padding:9px 14px;margin:48px 0 20px;scroll-margin-top:62px;border-radius:4px;">3. The Six Tools</h2>
+
+        <p>Each tool addresses one critical failure point in the ERP selection process. Together they form a complete, self-contained evaluation system.</p>
+
+        <!-- Tool 01 -->
+        <h3 id="ug-t01" style="background:var(--action-dark);color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;padding:9px 14px;margin:36px 0 16px;scroll-margin-top:62px;border-radius:4px;">Tool 01 — Requirements Scorecard</h3>
+        <p style="font-style:italic;color:var(--ink-soft);margin-bottom:12px;">Score up to three ERP vendors against your organization's actual functional requirements — weighted by what matters most to you.</p>
+        <h4 style="font-family:Arial,sans-serif;font-size:0.88rem;font-weight:700;color:var(--slate);margin:16px 0 6px;">What it does</h4>
+        <p>Tool 01 is the foundation of your entire evaluation. It walks you through five requirement categories — Functional Capabilities, Compliance &amp; Regulatory, Implementation &amp; Support, Vendor Stability, and Cost &amp; Commercial Terms — and lets you score each vendor against each requirement. Scores are weighted by importance, producing a comparable total score per vendor.</p>
+        <h4 style="font-family:Arial,sans-serif;font-size:0.88rem;font-weight:700;color:var(--slate);margin:16px 0 6px;">How to use it</h4>
+        <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:0.88rem;margin-bottom:16px;">
+          <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:8px 12px;text-align:center;width:48px;">Step</th><th style="padding:8px 12px;text-align:left;width:180px;">Action</th><th style="padding:8px 12px;text-align:left;">Detail</th></tr></thead>
+          <tbody>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">1</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Enter names</td><td style="padding:8px 12px;">Enter your organization name and the names of up to three vendors you are evaluating</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">2</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Score requirements</td><td style="padding:8px 12px;">Work through each requirement category — review the criteria and score each vendor from 0 (Does not meet) to 4 (Exceeds requirements)</td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">3</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">GovCon compliance</td><td style="padding:8px 12px;">Government contractors: pay particular attention to the Compliance &amp; Regulatory section — DCAA-specific criteria are tagged</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">4</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Nonprofit compliance</td><td style="padding:8px 12px;">Nonprofits: look for 2 CFR 200 compliance criteria in the Compliance section</td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">5</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Generate results</td><td style="padding:8px 12px;">Click Generate Scorecard Results to see ranked scores by section and overall</td></tr>
+          </tbody>
+        </table>
+        <div style="border-radius:var(--radius-sm);padding:12px 16px;margin:10px 0;display:flex;gap:0;overflow:hidden;">
+          <div style="width:4px;background:var(--action-dark);border-radius:4px 0 0 4px;flex-shrink:0;margin:-12px 12px -12px -16px;"></div>
+          <div style="background:rgba(44,91,227,0.05);margin:-12px -16px -12px 0;padding:12px 16px 12px 0;flex:1;"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--action-dark);margin-bottom:4px;font-family:Arial,sans-serif;">GovCon Note</div><div style="font-size:0.88rem;color:var(--ink);">Criteria tagged as GovCon are specifically relevant to DCAA accounting system adequacy. These carry higher weights and should be scored carefully.</div></div>
+        </div>
+        <div style="border-radius:var(--radius-sm);padding:12px 16px;margin:10px 0;display:flex;gap:0;overflow:hidden;">
+          <div style="width:4px;background:var(--signal);border-radius:4px 0 0 4px;flex-shrink:0;margin:-12px 12px -12px -16px;"></div>
+          <div><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--signal);margin-bottom:4px;font-family:Arial,sans-serif;">Important</div><div style="font-size:0.88rem;color:var(--ink);">Do not skip requirements you are unsure about. Score them as 0 or 1 and note the gap — unknown requirements are a risk.</div></div>
+        </div>
+
+        <!-- Tool 02 -->
+        <h3 id="ug-t02" style="background:var(--action-dark);color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;padding:9px 14px;margin:36px 0 16px;scroll-margin-top:62px;border-radius:4px;">Tool 02 — 3-Year TCO Calculator</h3>
+        <p style="font-style:italic;color:var(--ink-soft);margin-bottom:12px;">Model the true 3-year total cost of ownership for up to three vendors — including every cost most organizations never calculate before signing.</p>
+        <h4 style="font-family:Arial,sans-serif;font-size:0.88rem;font-weight:700;color:var(--slate);margin:16px 0 6px;">What it does</h4>
+        <p>Tool 02 reveals the gap between what vendors quote and what an ERP actually costs over three years. It captures Year 1 implementation costs, Years 2–3 recurring costs, and internal staff time — the hidden cost most organizations dramatically underestimate.</p>
+        <h4 style="font-family:Arial,sans-serif;font-size:0.88rem;font-weight:700;color:var(--slate);margin:16px 0 6px;">How to use it</h4>
+        <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:0.88rem;margin-bottom:16px;">
+          <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:8px 12px;text-align:center;width:48px;">Step</th><th style="padding:8px 12px;text-align:left;width:180px;">Action</th><th style="padding:8px 12px;text-align:left;">Detail</th></tr></thead>
+          <tbody>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">1</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Enter vendor names</td><td style="padding:8px 12px;">Enter vendor names in the Setup section (these carry over from Tool 01 if already entered)</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">2</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Year 1 costs</td><td style="padding:8px 12px;">Enter Year 1 costs for each vendor: license fees, implementation services, customization, training, data migration, and first-year support</td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">3</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Years 2–3 costs</td><td style="padding:8px 12px;">Enter Years 2–3 recurring costs: annual subscription, maintenance, and ongoing support</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">4</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Internal costs</td><td style="padding:8px 12px;">Enter internal cost estimates: project lead rate and hours, staff training hours, data preparation hours, and estimated productivity loss during go-live</td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">5</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Calculate</td><td style="padding:8px 12px;">Click Calculate 3-Year TCO to see side-by-side cost comparison with a year-by-year breakdown</td></tr>
+          </tbody>
+        </table>
+        <div style="border-radius:var(--radius-sm);padding:12px 16px;margin:10px 0;display:flex;gap:0;overflow:hidden;">
+          <div style="width:4px;background:var(--teal);border-radius:4px 0 0 4px;flex-shrink:0;margin:-12px 12px -12px -16px;"></div>
+          <div style="background:rgba(61,138,122,0.05);margin:-12px -16px -12px 0;padding:12px 16px 12px 0;flex:1;"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal);margin-bottom:4px;font-family:Arial,sans-serif;">Key Insight</div><div style="font-size:0.88rem;color:var(--ink);">The internal cost estimator often surfaces $50,000–$150,000 in costs that never appear in vendor proposals. Complete it honestly.</div></div>
+        </div>
+        <div style="border-radius:var(--radius-sm);padding:12px 16px;margin:10px 0;display:flex;gap:0;overflow:hidden;">
+          <div style="width:4px;background:var(--signal);border-radius:4px 0 0 4px;flex-shrink:0;margin:-12px 12px -12px -16px;"></div>
+          <div><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--signal);margin-bottom:4px;font-family:Arial,sans-serif;">Important</div><div style="font-size:0.88rem;color:var(--ink);">Ask every vendor for a full written cost breakdown before entering numbers. Verbal quotes are not sufficient for this analysis.</div></div>
+        </div>
+
+        <!-- Tool 03 -->
+        <h3 id="ug-t03" style="background:var(--action-dark);color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;padding:9px 14px;margin:36px 0 16px;scroll-margin-top:62px;border-radius:4px;">Tool 03 — DCAA Accounting System Readiness Guide</h3>
+        <p style="font-style:italic;color:var(--ink-soft);margin-bottom:12px;">Assess whether your ERP configuration will satisfy a DCAA pre-award accounting system adequacy review.</p>
+        <h4 style="font-family:Arial,sans-serif;font-size:0.88rem;font-weight:700;color:var(--slate);margin:16px 0 6px;">What it does</h4>
+        <p>Tool 03 is built specifically for government contractors. It maps DCAA SF 1408 pre-award accounting system requirements to your ERP evaluation — identifying gaps before they become findings. It includes a scope determination gate, a full assessment, and a prioritized action plan.</p>
+        <h4 style="font-family:Arial,sans-serif;font-size:0.88rem;font-weight:700;color:var(--slate);margin:16px 0 6px;">How to use it</h4>
+        <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:0.88rem;margin-bottom:16px;">
+          <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:8px 12px;text-align:center;width:48px;">Step</th><th style="padding:8px 12px;text-align:left;width:180px;">Action</th><th style="padding:8px 12px;text-align:left;">Detail</th></tr></thead>
+          <tbody>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">1</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Scope determination</td><td style="padding:8px 12px;">Complete the Scope Determination first — two questions establish whether DCAA compliance applies to your contracts</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">2</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Full assessment</td><td style="padding:8px 12px;">If in scope: work through the full assessment covering job cost accounting, timekeeping, indirect rate structure, unallowable costs, and audit trail requirements</td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">3</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Score conservatively</td><td style="padding:8px 12px;">Score each requirement using the 0–4 scale — be conservative; DCAA auditors will be</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">4</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Generate report</td><td style="padding:8px 12px;">Click Generate Readiness Report to receive a prioritized action list and risk rating</td></tr>
+          </tbody>
+        </table>
+        <div style="border-radius:var(--radius-sm);padding:12px 16px;margin:10px 0;display:flex;gap:0;overflow:hidden;">
+          <div style="width:4px;background:var(--teal);border-radius:4px 0 0 4px;flex-shrink:0;margin:-12px 12px -12px -16px;"></div>
+          <div style="background:rgba(61,138,122,0.05);margin:-12px -16px -12px 0;padding:12px 16px 12px 0;flex:1;"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal);margin-bottom:4px;font-family:Arial,sans-serif;">Tip</div><div style="font-size:0.88rem;color:var(--ink);">If you determine this tool does not apply (fixed-price only contracts), you can still use it as a future-readiness check if you plan to pursue cost-type vehicles.</div></div>
+        </div>
+
+        <!-- Tool 04 -->
+        <h3 id="ug-t04" style="background:var(--action-dark);color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;padding:9px 14px;margin:36px 0 16px;scroll-margin-top:62px;border-radius:4px;">Tool 04 — RFI / Demo Script Template</h3>
+        <p style="font-style:italic;color:var(--ink-soft);margin-bottom:12px;">Control every vendor conversation with structured RFIs, scripted demos, red flag checklists, and reference check guides.</p>
+        <h4 style="font-family:Arial,sans-serif;font-size:0.88rem;font-weight:700;color:var(--slate);margin:16px 0 6px;">What it does</h4>
+        <p>Tool 04 gives you the materials to run a disciplined, comparable vendor evaluation process. Without a structured script, vendor demos show you what looks impressive rather than what you need. This tool flips that dynamic.</p>
+        <h4 style="font-family:Arial,sans-serif;font-size:0.88rem;font-weight:700;color:var(--slate);margin:16px 0 6px;">The five tabs inside Tool 04</h4>
+        <ul style="margin:0 0 16px 20px;padding:0;">
+          <li style="margin-bottom:6px;"><strong>RFI Template</strong> — structured questions to send vendors before demos. Covers functional requirements, compliance, implementation approach, and pricing</li>
+          <li style="margin-bottom:6px;"><strong>Demo Script</strong> — a scripted agenda for vendor demos organized by phase, ensuring every vendor shows the same capabilities in the same order</li>
+          <li style="margin-bottom:6px;"><strong>Red Flag Checklist</strong> — warning signs to watch for during demos and vendor conversations, organized by category</li>
+          <li style="margin-bottom:6px;"><strong>Reference Check Guide</strong> — structured questions for calling vendor references, organized by topic</li>
+        </ul>
+        <h4 style="font-family:Arial,sans-serif;font-size:0.88rem;font-weight:700;color:var(--slate);margin:16px 0 6px;">How to use it</h4>
+        <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:0.88rem;margin-bottom:16px;">
+          <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:8px 12px;text-align:center;width:48px;">Step</th><th style="padding:8px 12px;text-align:left;width:180px;">Action</th><th style="padding:8px 12px;text-align:left;">Detail</th></tr></thead>
+          <tbody>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">1</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Send RFI</td><td style="padding:8px 12px;">Send the RFI Template to shortlisted vendors at least 2 weeks before demos</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">2</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Control demos</td><td style="padding:8px 12px;">Run every demo using the Demo Script — do not let vendors control the agenda</td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">3</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Flag red flags</td><td style="padding:8px 12px;">During each demo, work through the Red Flag Checklist in real time</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">4</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Check references</td><td style="padding:8px 12px;">Call at least two references per vendor using the Reference Check Guide before making a final decision</td></tr>
+          </tbody>
+        </table>
+        <div style="border-radius:var(--radius-sm);padding:12px 16px;margin:10px 0;display:flex;gap:0;overflow:hidden;">
+          <div style="width:4px;background:var(--signal);border-radius:4px 0 0 4px;flex-shrink:0;margin:-12px 12px -12px -16px;"></div>
+          <div><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--signal);margin-bottom:4px;font-family:Arial,sans-serif;">Important</div><div style="font-size:0.88rem;color:var(--ink);">Never make a final vendor selection without calling references. Vendor demos are sales presentations. References are reality checks.</div></div>
+        </div>
+
+        <!-- Tool 05 -->
+        <h3 id="ug-t05" style="background:var(--action-dark);color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;padding:9px 14px;margin:36px 0 16px;scroll-margin-top:62px;border-radius:4px;">Tool 05 — Data Migration Readiness Audit</h3>
+        <p style="font-style:italic;color:var(--ink-soft);margin-bottom:12px;">Assess the quality of your migration data and identify what requires remediation before go-live.</p>
+        <h4 style="font-family:Arial,sans-serif;font-size:0.88rem;font-weight:700;color:var(--slate);margin:16px 0 6px;">What it does</h4>
+        <p>Tool 05 is a pre-migration risk assessment that surfaces data quality issues before they become go-live problems. It covers chart of accounts, vendor master, customer master, open transactions, historical data, and fixed assets — and helps you choose the right migration strategy.</p>
+        <h4 style="font-family:Arial,sans-serif;font-size:0.88rem;font-weight:700;color:var(--slate);margin:16px 0 6px;">Scope check</h4>
+        <p>The tool opens with a scope check: if this is your first ERP implementation with no prior system, data migration is not applicable and you can skip to Tool 06. If you have an existing system to migrate from, complete the full audit.</p>
+        <h4 style="font-family:Arial,sans-serif;font-size:0.88rem;font-weight:700;color:var(--slate);margin:16px 0 6px;">How to use it</h4>
+        <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:0.88rem;margin-bottom:16px;">
+          <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:8px 12px;text-align:center;width:48px;">Step</th><th style="padding:8px 12px;text-align:left;width:180px;">Action</th><th style="padding:8px 12px;text-align:left;">Detail</th></tr></thead>
+          <tbody>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">1</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Enter system info</td><td style="padding:8px 12px;">Enter your current system, target system, and go-live target date</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">2</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Assess data categories</td><td style="padding:8px 12px;">Work through each data category — assess completeness, cleanliness, and format for each</td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">3</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Choose strategy</td><td style="padding:8px 12px;">Select your migration strategy: Big Bang (single cutover), Phased Migration (waves by module), or Parallel Run (both systems simultaneously)</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">4</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Generate report</td><td style="padding:8px 12px;">Click Generate Remediation Priority Report to receive a prioritized list of data issues to address before migration</td></tr>
+          </tbody>
+        </table>
+        <div style="border-radius:var(--radius-sm);padding:12px 16px;margin:10px 0;display:flex;gap:0;overflow:hidden;">
+          <div style="width:4px;background:var(--action-dark);border-radius:4px 0 0 4px;flex-shrink:0;margin:-12px 12px -12px -16px;"></div>
+          <div style="background:rgba(44,91,227,0.05);margin:-12px -16px -12px 0;padding:12px 16px 12px 0;flex:1;"><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--action-dark);margin-bottom:4px;font-family:Arial,sans-serif;">GovCon Recommendation</div><div style="font-size:0.88rem;color:var(--ink);">If you have active contracts at go-live, the Parallel Run strategy is strongly recommended. Running both systems simultaneously during transition protects your billing continuity.</div></div>
+        </div>
+
+        <!-- Tool 06 -->
+        <h3 id="ug-t06" style="background:var(--action-dark);color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;padding:9px 14px;margin:36px 0 16px;scroll-margin-top:62px;border-radius:4px;">Tool 06 — ERP Selection &amp; Implementation Playbook</h3>
+        <p style="font-style:italic;color:var(--ink-soft);margin-bottom:12px;">A complete roadmap from requirements through go-live — with project charter, contract review checklist, and failure mode library.</p>
+        <h4 style="font-family:Arial,sans-serif;font-size:0.88rem;font-weight:700;color:var(--slate);margin:16px 0 6px;">What it does</h4>
+        <p>Tool 06 is the implementation playbook that ties the entire evaluation together. It provides a six-phase roadmap, a project charter template, a vendor contract review checklist, a go-live readiness assessment, and a library of the ten most common ERP failure modes.</p>
+        <h4 style="font-family:Arial,sans-serif;font-size:0.88rem;font-weight:700;color:var(--slate);margin:16px 0 6px;">The five tabs inside Tool 06</h4>
+        <ul style="margin:0 0 16px 20px;padding:0;">
+          <li style="margin-bottom:6px;"><strong>Phase Roadmap</strong> — six-phase implementation roadmap from requirements documentation through post-go-live stabilization, with tasks and timelines per phase</li>
+          <li style="margin-bottom:6px;"><strong>Project Charter</strong> — fill-in template to establish shared ownership, decision rights, scope boundaries, and escalation paths at implementation start</li>
+          <li style="margin-bottom:6px;"><strong>Contract Review Checklist</strong> — items to review before signing any ERP contract. CRITICAL items are non-negotiable; NEGOTIATE items are where you have leverage</li>
+          <li style="margin-bottom:6px;"><strong>Go-Live Readiness Assessment</strong> — complete no earlier than 2 weeks before planned go-live. Any BLOCKER item must be resolved before proceeding. Scores your overall readiness</li>
+          <li style="margin-bottom:6px;"><strong>Failure Modes</strong> — the ten most common reasons ERP implementations fail, with prevention guidance for each</li>
+        </ul>
+        <h4 style="font-family:Arial,sans-serif;font-size:0.88rem;font-weight:700;color:var(--slate);margin:16px 0 6px;">How to use it</h4>
+        <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:0.88rem;margin-bottom:16px;">
+          <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:8px 12px;text-align:center;width:48px;">Step</th><th style="padding:8px 12px;text-align:left;width:180px;">Action</th><th style="padding:8px 12px;text-align:left;">Detail</th></tr></thead>
+          <tbody>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">1</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Review roadmap first</td><td style="padding:8px 12px;">Start with the Phase Roadmap to understand the full selection timeline before starting vendor conversations</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">2</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Complete charter</td><td style="padding:8px 12px;">Complete the Project Charter at the start of implementation — distribute to all stakeholders</td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">3</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Review contract</td><td style="padding:8px 12px;">Use the Contract Review Checklist before signing any vendor agreement</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">4</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Run readiness check</td><td style="padding:8px 12px;">Run the Go-Live Readiness Assessment two weeks before your planned cutover date</td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">5</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Review failure modes</td><td style="padding:8px 12px;">Review the Failure Modes section with your implementation team before go-live</td></tr>
+          </tbody>
+        </table>
+        <div style="border-radius:var(--radius-sm);padding:12px 16px;margin:10px 0;display:flex;gap:0;overflow:hidden;">
+          <div style="width:4px;background:var(--signal);border-radius:4px 0 0 4px;flex-shrink:0;margin:-12px 12px -12px -16px;"></div>
+          <div><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--signal);margin-bottom:4px;font-family:Arial,sans-serif;">Important</div><div style="font-size:0.88rem;color:var(--ink);">Do not sign a vendor contract without reviewing every CRITICAL item in the Contract Review Checklist. These are non-negotiable provisions that protect your organization.</div></div>
+        </div>
+
+        <!-- ─── SECTION 4 ─── -->
+        <h2 id="ug-s4" style="background:var(--slate);color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;padding:9px 14px;margin:48px 0 20px;scroll-margin-top:62px;border-radius:4px;">4. Recommended Workflow</h2>
+        <p>For best results, work through eRA in order. Each tool builds on the previous one. Here is the recommended end-to-end workflow:</p>
+        <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:0.88rem;margin-bottom:16px;">
+          <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:8px 12px;text-align:left;width:60px;">Phase</th><th style="padding:8px 12px;text-align:left;">Tool</th><th style="padding:8px 12px;text-align:left;">What you produce</th><th style="padding:8px 12px;text-align:left;">Timing</th></tr></thead>
+          <tbody>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;font-weight:700;color:var(--action-dark);">1</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Tool 01 — Requirements Scorecard</td><td style="padding:8px 12px;">Weighted vendor comparison across 5 categories</td><td style="padding:8px 12px;font-style:italic;color:var(--ink-soft);">Before any vendor demos</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;font-weight:700;color:var(--action-dark);">2</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Tool 02 — TCO Calculator</td><td style="padding:8px 12px;">3-year side-by-side cost model per vendor</td><td style="padding:8px 12px;font-style:italic;color:var(--ink-soft);">After initial vendor conversations</td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;font-weight:700;color:var(--action-dark);">3</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Tool 03 — DCAA Readiness Guide</td><td style="padding:8px 12px;">Prioritized gap list for accounting system adequacy</td><td style="padding:8px 12px;font-style:italic;color:var(--ink-soft);">GovCon: before shortlisting vendors</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;font-weight:700;color:var(--action-dark);">4</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Tool 04 — RFI &amp; Demo Script</td><td style="padding:8px 12px;">Structured RFI + scripted demo agenda</td><td style="padding:8px 12px;font-style:italic;color:var(--ink-soft);">Before scheduling vendor demos</td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;font-weight:700;color:var(--action-dark);">5</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Tool 05 — Data Migration Audit</td><td style="padding:8px 12px;">Migration risk assessment + remediation priorities</td><td style="padding:8px 12px;font-style:italic;color:var(--ink-soft);">Before contract signing</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;font-weight:700;color:var(--action-dark);">6</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Tool 06 — Implementation Playbook</td><td style="padding:8px 12px;">Project charter + contract checklist + go-live gauge</td><td style="padding:8px 12px;font-style:italic;color:var(--ink-soft);">Throughout implementation</td></tr>
+          </tbody>
+        </table>
+
+        <!-- ─── SECTION 5 ─── -->
+        <h2 id="ug-s5" style="background:var(--slate);color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;padding:9px 14px;margin:48px 0 20px;scroll-margin-top:62px;border-radius:4px;">5. Saving Your Work</h2>
+        <p>eRA runs entirely in your browser. Your data is not automatically saved to a file or cloud service. Follow these practices to avoid losing your work.</p>
+
+        <h3 style="font-family:Arial,sans-serif;font-size:0.97rem;font-weight:700;color:var(--slate);margin:24px 0 8px;">Print / Save PDF (recommended)</h3>
+        <p>Every tool includes a Print / Save PDF button. Use your browser's print dialog and choose Save as PDF as the destination. This creates a permanent record of your results for that tool.</p>
+        <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:0.88rem;margin-bottom:16px;">
+          <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:8px 12px;text-align:center;width:48px;">Step</th><th style="padding:8px 12px;text-align:left;width:180px;">Action</th><th style="padding:8px 12px;text-align:left;">Detail</th></tr></thead>
+          <tbody>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">1</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Complete a section</td><td style="padding:8px 12px;">Complete a tool section</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">2</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Click Print / Save PDF</td><td style="padding:8px 12px;">Click the Print / Save PDF button</td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">3</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Save as PDF</td><td style="padding:8px 12px;">In the print dialog, select Save as PDF (not a physical printer)</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">4</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Name clearly</td><td style="padding:8px 12px;">Name the file clearly, e.g., eRA-Tool01-Requirements-[Date].pdf</td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;text-align:center;font-weight:700;color:var(--action-dark);">5</td><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Save to project folder</td><td style="padding:8px 12px;">Save to your project folder</td></tr>
+          </tbody>
+        </table>
+        <div style="border-radius:var(--radius-sm);padding:12px 16px;margin:10px 0;display:flex;gap:0;overflow:hidden;">
+          <div style="width:4px;background:var(--teal);border-radius:4px 0 0 4px;flex-shrink:0;margin:-12px 12px -12px -16px;"></div>
+          <div style="background:rgba(61,138,122,0.05);margin:-12px -16px -12px 0;padding:12px 16px 12px 0;flex:1;"><div style="font-size:0.88rem;color:var(--ink);font-style:italic;">Print the Dashboard Summary Report last — after completing all tools — for a single consolidated PDF of your full evaluation.</div></div>
+        </div>
+
+        <h3 style="font-family:Arial,sans-serif;font-size:0.97rem;font-weight:700;color:var(--slate);margin:24px 0 8px;">Keeping the Browser Tab Open</h3>
+        <p>As long as you keep the eRA browser tab open, your data persists. You can work across multiple sessions by leaving the tab open or by bookmarking and returning. Do not close the tab until you have saved your results via PDF.</p>
+        <div style="border-radius:var(--radius-sm);padding:12px 16px;margin:10px 0;display:flex;gap:0;overflow:hidden;">
+          <div style="width:4px;background:var(--signal);border-radius:4px 0 0 4px;flex-shrink:0;margin:-12px 12px -12px -16px;"></div>
+          <div><div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--signal);margin-bottom:4px;font-family:Arial,sans-serif;">Important</div><div style="font-size:0.88rem;color:var(--ink);">Refreshing the page or clearing browser data will reset the tool. Always save to PDF before closing or refreshing.</div></div>
+        </div>
+
+        <h3 style="font-family:Arial,sans-serif;font-size:0.97rem;font-weight:700;color:var(--slate);margin:24px 0 8px;">Sharing Results with Stakeholders</h3>
+        <p>The PDF exports from each tool are formatted for stakeholder review. The Dashboard Summary Report is the recommended single deliverable to share with leadership, your board, or your implementation team.</p>
+
+        <!-- ─── SECTION 6 ─── -->
+        <h2 id="ug-s6" style="background:var(--slate);color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;padding:9px 14px;margin:48px 0 20px;scroll-margin-top:62px;border-radius:4px;">6. Tips by Audience</h2>
+
+        <h3 id="ug-s6-1" style="font-family:Arial,sans-serif;font-size:0.97rem;font-weight:700;color:var(--slate);margin:24px 0 8px;scroll-margin-top:62px;">6.1 Government Contractors</h3>
+        <p>Your most critical tools are 01 (Requirements Scorecard), 03 (DCAA Readiness), and 06 (Contract Review). Focus on these before shortlisting vendors.</p>
+        <ul style="margin:0 0 16px 20px;padding:0;">
+          <li style="margin-bottom:6px;">In Tool 01: pay particular attention to criteria tagged GovCon — these map directly to DCAA accounting system requirements</li>
+          <li style="margin-bottom:6px;">In Tool 03: complete the DCAA assessment even if you only have fixed-price contracts now. If you ever pursue cost-type vehicles, your ERP must be ready</li>
+          <li style="margin-bottom:6px;">In Tool 06: every CRITICAL item in the Contract Review Checklist applies to GovCon. Do not waive DCAA-related provisions in vendor contracts</li>
+          <li style="margin-bottom:6px;">Migration strategy (Tool 05): use Parallel Run if you have active contracts at go-live — billing continuity depends on it</li>
+        </ul>
+
+        <h3 id="ug-s6-2" style="font-family:Arial,sans-serif;font-size:0.97rem;font-weight:700;color:var(--slate);margin:24px 0 8px;scroll-margin-top:62px;">6.2 Nonprofits with Federal Awards</h3>
+        <p>Your most critical tools are 01 (Requirements Scorecard), 02 (TCO Calculator), and 06 (Playbook). 2 CFR 200 compliance requirements should drive your vendor evaluation.</p>
+        <ul style="margin:0 0 16px 20px;padding:0;">
+          <li style="margin-bottom:6px;">In Tool 01: look for the 2 CFR 200 criteria in the Compliance &amp; Regulatory section — these are tagged nonprofit</li>
+          <li style="margin-bottom:6px;">In Tool 02: nonprofit ERP implementations often underestimate internal staff costs. Be conservative with your training and project lead hour estimates</li>
+          <li style="margin-bottom:6px;">Tool 03 (DCAA Guide): if you only have grant awards and no FAR-based contracts, the scope check will indicate this tool does not apply</li>
+          <li style="margin-bottom:6px;">In Tool 06: review the Contract Review Checklist carefully around data portability — you need to be able to export your data if the vendor relationship ends</li>
+        </ul>
+
+        <h3 id="ug-s6-3" style="font-family:Arial,sans-serif;font-size:0.97rem;font-weight:700;color:var(--slate);margin:24px 0 8px;scroll-margin-top:62px;">6.3 Growing Businesses Replacing QuickBooks</h3>
+        <p>Your most critical tools are 01 (Requirements Scorecard), 02 (TCO Calculator), and 04 (RFI &amp; Demo Script). The goal is to avoid being dazzled by demos and buying more than you need.</p>
+        <ul style="margin:0 0 16px 20px;padding:0;">
+          <li style="margin-bottom:6px;">In Tool 01: be ruthless about requirements. Score low anything you do not actually need — vendors will upsell you on features you will never use</li>
+          <li style="margin-bottom:6px;">In Tool 02: the hidden internal cost calculation in Tool 02 is especially important for small teams. A 300-hour project lead commitment is real capacity you are pulling from the business</li>
+          <li style="margin-bottom:6px;">Tool 04 (Demo Script): use it exactly as written. Vendors routinely show demos in an order designed to impress rather than compare. The script neutralizes this</li>
+          <li style="margin-bottom:6px;">Tool 05 (Data Migration): if you have 5+ years of QuickBooks data, your migration complexity is higher than you think. Complete this audit before signing</li>
+        </ul>
+
+        <!-- ─── SECTION 7 ─── -->
+        <h2 id="ug-s7" style="background:var(--slate);color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;padding:9px 14px;margin:48px 0 20px;scroll-margin-top:62px;border-radius:4px;">7. Troubleshooting</h2>
+        <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:0.88rem;margin-bottom:16px;">
+          <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:8px 12px;text-align:left;width:240px;">Problem</th><th style="padding:8px 12px;text-align:left;">Solution</th></tr></thead>
+          <tbody>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;font-weight:600;color:var(--slate);">The file won't open</td><td style="padding:8px 12px;">Right-click the .html file and choose Open With, then select Chrome, Edge, Firefox, or Safari. Do not open with a text editor.</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;font-weight:600;color:var(--slate);">The layout looks broken</td><td style="padding:8px 12px;">Try a different browser. Chrome or Edge are recommended. Avoid opening in Internet Explorer.</td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;font-weight:600;color:var(--slate);">My data disappeared</td><td style="padding:8px 12px;">Data is held in the browser session. If you closed and reopened the file, the session reset. Use Print / Save PDF to preserve results after each session.</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;font-weight:600;color:var(--slate);">The print PDF looks cut off</td><td style="padding:8px 12px;">In the print dialog, set margins to Minimum or None. Use landscape orientation for wide tables.</td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;font-weight:600;color:var(--slate);">I can't see all the sidebar tools</td><td style="padding:8px 12px;">Scroll down within the sidebar — all six tools are listed. On smaller screens the sidebar may be partially hidden.</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Tool 03 says not applicable</td><td style="padding:8px 12px;">This is correct if you only hold fixed-price contracts. The DCAA guide is only relevant for cost-type contract vehicles.</td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Tool 05 says not applicable</td><td style="padding:8px 12px;">This is correct if this is your first ERP with no prior system to migrate from. Proceed directly to Tool 06.</td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;font-weight:600;color:var(--slate);">The dashboard widgets are empty</td><td style="padding:8px 12px;">Widgets populate as you complete tools. Complete Tool 01 (Requirements) and Tool 02 (TCO) first — these feed the main dashboard widgets.</td></tr>
+          </tbody>
+        </table>
+
+        <!-- ─── SECTION 8 ─── -->
+        <h2 id="ug-s8" style="background:var(--slate);color:#fff;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;padding:9px 14px;margin:48px 0 20px;scroll-margin-top:62px;border-radius:4px;">8. Getting More Help</h2>
+        <p>eRA is designed for self-service use. Most organizations can complete all six tools without outside assistance. However, there are situations where independent advisory support adds significant value.</p>
+
+        <h3 style="font-family:Arial,sans-serif;font-size:0.97rem;font-weight:700;color:var(--slate);margin:24px 0 8px;">When to consider a Savanna Consulting strategy call</h3>
+        <ul style="margin:0 0 16px 20px;padding:0;">
+          <li style="margin-bottom:6px;">Your DCAA readiness score (Tool 03) identifies significant gaps before a scheduled audit or proposal</li>
+          <li style="margin-bottom:6px;">Your TCO comparison (Tool 02) shows a very close race between vendors and you need an independent perspective</li>
+          <li style="margin-bottom:6px;">You are about to sign a contract and want a second set of eyes on the vendor agreement</li>
+          <li style="margin-bottom:6px;">You are approaching go-live and your readiness score (Tool 06) surfaces blocker items you are unsure how to resolve</li>
+          <li style="margin-bottom:6px;">Your data migration audit (Tool 05) identifies high-risk categories that concern you</li>
+        </ul>
+
+        <div style="border-radius:var(--radius-sm);padding:12px 16px;margin:16px 0;display:flex;gap:0;overflow:hidden;">
+          <div style="width:4px;background:var(--teal);border-radius:4px 0 0 4px;flex-shrink:0;margin:-12px 12px -12px -16px;"></div>
+          <div style="background:rgba(61,138,122,0.05);margin:-12px -16px -12px 0;padding:12px 16px 12px 0;flex:1;"><div style="font-size:0.88rem;color:var(--ink);font-style:italic;">A free 30-minute strategy call with Savanna Consulting is available at no cost or obligation. The call is designed to give you a direct, honest read on your situation — not a sales pitch.</div></div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:0.88rem;margin-bottom:24px;">
+          <thead><tr style="background:var(--slate);color:#fff;"><th style="padding:8px 12px;text-align:left;width:140px;">Contact</th><th style="padding:8px 12px;text-align:left;">Details</th></tr></thead>
+          <tbody>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Book a Call</td><td style="padding:8px 12px;"><a href="https://app.usemotion.com/meet/Savanna-Consulting/intro-strategy" target="_blank" style="color:var(--action-dark);">https://app.usemotion.com/meet/Savanna-Consulting/intro-strategy</a></td></tr>
+            <tr style="background:var(--fog);"><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Website</td><td style="padding:8px 12px;"><a href="https://savannaconsult.com" target="_blank" style="color:var(--action-dark);">https://savannaconsult.com</a></td></tr>
+            <tr style="background:var(--white);"><td style="padding:8px 12px;font-weight:600;color:var(--slate);">Email</td><td style="padding:8px 12px;"><a href="mailto:&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#115;&#97;&#118;&#97;&#110;&#110;&#97;&#99;&#111;&#110;&#115;&#117;&#108;&#116;&#46;&#99;&#111;&#109;" style="color:var(--action-dark);">&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#115;&#97;&#118;&#97;&#110;&#110;&#97;&#99;&#111;&#110;&#115;&#117;&#108;&#116;&#46;&#99;&#111;&#109;</a></td></tr>
+          </tbody>
+        </table>
+
+        <div style="text-align:center;font-family:Arial,sans-serif;font-size:0.78rem;color:var(--ink-soft);padding:16px 0 8px;border-top:1px solid var(--border);margin-top:32px;">
+          End of User Guide — eRA v1.0 — © 2026 Savanna Consulting LLC
+        </div>
+
+      </div><!-- end #ug-body -->
+    </div><!-- end guide layout flex -->
+
+  </div><!-- end .panel-wrap -->
+</div>
+<!-- end HELP PANEL -->
+
+</div><!-- end .main-content -->
+</div><!-- end .app-shell -->
+
+</div><!-- /.main-content -->
+
+<footer>
+  <div class="footer-brand">Savanna Consulting</div>
+  <p>savannaconsult.com · Baltimore, MD · © 2026 Savanna Consulting LLC</p>
+  <p style="margin-top:4px;font-size:0.78rem;max-width:560px;margin:4px auto 0;">This bundle does not constitute legal, accounting, or audit advice. Consult qualified advisors before signing ERP contracts or undergoing DCAA review.</p>
+</footer>
+
+</div><!-- /.app-shell -->
+
+<!-- Scripts — order matters -->
+<script src="eval-manager.js"></script>
+<script src="tools.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
