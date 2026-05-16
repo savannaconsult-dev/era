@@ -85,18 +85,98 @@
 <!-- MAIN CONTENT -->
 <div class="main-content">
 <div class="tool-panel active" id="panel-start">
+  <!-- MISSION CONTROL TOPBAR -->
+  <div class="mc-topbar" role="region" aria-label="Assessment context">
+    <div class="mc-topbar-left">
+      <span class="mc-status mc-status--ok" aria-label="Status: Assessment Snapshot">
+        <span class="mc-status-dot" aria-hidden="true"></span> ASSESSMENT SNAPSHOT
+      </span>
+      <div class="mc-topbar-title-wrap">
+        <h2 class="mc-topbar-title" id="mc-topbar-title">eRA Readiness Console</h2>
+        <span class="mc-topbar-meta" id="mc-topbar-meta">Enterprise Readiness Analyzer · 6 Tools</span>
+      </div>
+    </div>
+    <div class="mc-topbar-right">
+      <button class="mc-btn" onclick="dashExportJson()" title="Export current evaluation as JSON">
+        <span aria-hidden="true">⬇</span> Export JSON
+      </button>
+      <button class="mc-btn mc-btn--primary" onclick="window.print()" title="Print readiness report">
+        <span aria-hidden="true">⎙</span> Print readiness report
+      </button>
+    </div>
+  </div>
+
   <div class="dash-hero">
     <div class="dash-hero-inner">
       <div>
         <div class="dash-kicker">Enterprise Readiness Analyzer · 6 Tools</div>
         <h1 class="dash-title"><span style="color:var(--action);font-style:italic;">e</span>RA Dashboard</h1>
-        <p class="dash-sub">Live summary of results from your completed tools. Updates automatically as you work through the analyzer.</p>
+        <p class="dash-sub">Snapshot summary of results from your completed tools. Updates as you work through the analyzer and click each tool's calculate button.</p>
       </div>
       <button class="dash-print-btn" onclick="window.print()">⬡ Print Summary Report</button>
     </div>
   </div>
 
   <div class="dash-main">
+    <!-- KPI ROW -->
+    <section class="mc-kpis" id="mc-kpis" aria-label="Readiness key indicators">
+      <article class="mc-kpi mc-kpi--primary" id="mc-kpi-composite">
+        <div class="mc-kpi__row">
+          <span class="mc-kpi__label">Composite Readiness</span>
+          <span class="mc-tag mc-tag--neutral" id="mc-kpi-composite-tag">Pending</span>
+        </div>
+        <div class="mc-kpi__big" id="mc-kpi-composite-val">—<small>/100</small></div>
+        <div class="mc-bar" aria-hidden="true"><span id="mc-kpi-composite-bar" style="width:0%"></span></div>
+        <div class="mc-kpi__foot" id="mc-kpi-composite-foot"><span>Run calculations across tools to populate</span></div>
+      </article>
+      <article class="mc-kpi" id="mc-kpi-coverage">
+        <div class="mc-kpi__row">
+          <span class="mc-kpi__label">Requirements Coverage</span>
+          <span class="mc-tag mc-tag--neutral" id="mc-kpi-coverage-tag">Pending</span>
+        </div>
+        <div class="mc-kpi__big" id="mc-kpi-coverage-val">—<small>%</small></div>
+        <div class="mc-bar" aria-hidden="true"><span id="mc-kpi-coverage-bar" style="width:0%"></span></div>
+        <div class="mc-kpi__foot" id="mc-kpi-coverage-foot"><span>Tool 01 not yet scored</span></div>
+      </article>
+      <article class="mc-kpi" id="mc-kpi-tco">
+        <div class="mc-kpi__row">
+          <span class="mc-kpi__label">Lowest 3-yr TCO</span>
+          <span class="mc-tag mc-tag--neutral" id="mc-kpi-tco-tag">Pending</span>
+        </div>
+        <div class="mc-kpi__big" id="mc-kpi-tco-val">—</div>
+        <div class="mc-bar" aria-hidden="true"><span id="mc-kpi-tco-bar" style="width:0%"></span></div>
+        <div class="mc-kpi__foot" id="mc-kpi-tco-foot"><span>Tool 02 not yet calculated</span></div>
+      </article>
+      <article class="mc-kpi" id="mc-kpi-risks">
+        <div class="mc-kpi__row">
+          <span class="mc-kpi__label">Open Readiness Gaps</span>
+          <span class="mc-tag mc-tag--neutral" id="mc-kpi-risks-tag">Pending</span>
+        </div>
+        <div class="mc-kpi__big" id="mc-kpi-risks-val">—</div>
+        <div class="mc-bar" aria-hidden="true"><span id="mc-kpi-risks-bar" style="width:0%"></span></div>
+        <div class="mc-kpi__foot" id="mc-kpi-risks-foot"><span>Across Tool 03 DCAA and Tool 06 Go-Live</span></div>
+      </article>
+    </section>
+
+    <!-- ACTION QUEUE -->
+    <section class="ml-actions" id="ml-actions" aria-label="Prioritized next actions">
+      <div class="ml-actions__hero">
+        <div>
+          <div class="ml-actions__eyebrow" id="ml-actions-eyebrow">PRIORITY NEXT STEP</div>
+          <h3 id="ml-actions-title">Complete the tools to surface prioritized next steps.</h3>
+          <p id="ml-actions-sub">Each tool's calculate button feeds the dashboard. Start with Tool 01 — every other tool depends on documented requirements.</p>
+        </div>
+        <button class="ml-actions__cta" onclick="dashJumpToFirstIncomplete()" type="button">Open next tool →</button>
+      </div>
+      <div class="ml-actions__list" id="ml-actions-list" role="list">
+        <div class="ml-action ml-action--empty" role="listitem">
+          <span class="ml-action__sev ml-action__sev--idle" aria-label="No status">IDLE</span>
+          <span>No actions queued yet — complete tools to populate.</span>
+          <strong>—</strong>
+        </div>
+      </div>
+    </section>
+
     <div class="print-hdr">
       <div class="print-hdr-title">ERP Evaluation Summary Report</div>
       <div class="print-hdr-sub">Savanna Consulting · Enterprise Readiness Analyzer · savannaconsult.com</div>
