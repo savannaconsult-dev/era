@@ -114,14 +114,14 @@ function t1Calculate() {
     const pct=maxP[vi]>0?Math.round(totals[vi]/maxP[vi]*100):0;
     const isTop=totals[vi]===maxScore&&maxScore>0;
     const card=document.createElement('div'); card.className='result-card'+(isTop?' top':'');
-    card.innerHTML=`<div class="rc-label">${isTop?'★ TOP SCORER':'Vendor '+(vi+1)}</div><div class="rc-name">${names[vi]}</div><div class="rc-score">${totals[vi]}</div><div class="rc-max">of ${maxP[vi]} pts</div><div class="rc-bar-wrap"><div class="rc-bar" style="width:${pct}%"></div></div><div style="font-size:11px;color:var(--ink-soft);margin-top:5px;">${pct}% match</div>`;
+    card.innerHTML=`<div class="rc-label">${isTop?'★ TOP SCORER':'Vendor '+(vi+1)}</div><div class="rc-name">${escHtml(names[vi])}</div><div class="rc-score">${totals[vi]}</div><div class="rc-max">of ${maxP[vi]} pts</div><div class="rc-bar-wrap"><div class="rc-bar" style="width:${pct}%"></div></div><div style="font-size:11px;color:var(--ink-soft);margin-top:5px;">${pct}% match</div>`;
     grid.appendChild(card);
   });
   const bb=document.getElementById('t1-breakdown-bars'); bb.innerHTML='';
   T1_SECTIONS.forEach((sec,si)=>{
     const maxSec=Math.max(...[0,1,2].map(vi=>{let mp=0;sec.criteria.forEach((_,ci)=>{const val=document.getElementById(`t1s${sec.id}c${ci}v${vi+1}`)?.value;if(val&&val!='na')mp+=4*sec.criteria[ci].weight;});return mp;}));
     const row=document.createElement('div'); row.className='breakdown-row';
-    row.innerHTML=`<div class="br-header"><div class="br-lbl">${sec.name}</div><div class="br-scores">${[0,1,2].map(vi=>`<div class="br-vscore">${names[vi].substring(0,6)}: ${secTotals[si][vi]}</div>`).join('')}</div></div>${[0,1,2].map(vi=>`<div class="br-bar-wrap"><div class="br-bar v${vi+1}" style="width:${maxSec>0?Math.round(secTotals[si][vi]/maxSec*100):0}%"></div></div>`).join('')}`;
+    row.innerHTML=`<div class="br-header"><div class="br-lbl">${escHtml(sec.name)}</div><div class="br-scores">${[0,1,2].map(vi=>`<div class="br-vscore">${escHtml(String(names[vi]).substring(0,6))}: ${secTotals[si][vi]}</div>`).join('')}</div></div>${[0,1,2].map(vi=>`<div class="br-bar-wrap"><div class="br-bar v${vi+1}" style="width:${maxSec>0?Math.round(secTotals[si][vi]/maxSec*100):0}%"></div></div>`).join('')}`;
     bb.appendChild(row);
   });
   document.getElementById('t1-results').style.display='block';
@@ -194,14 +194,14 @@ function t2Calculate(){
   tcos.forEach(t=>{
     const isLow=t.total3yr===minTCO&&minTCO>0,isHigh=t.total3yr===maxTCO&&maxTCO>0&&maxTCO!==minTCO;
     const c=document.createElement('div'); c.className='tco-card'+(isLow?' lowest':isHigh?' highest':'');
-    c.innerHTML=`<div class="rc-label">${isLow?'★ LOWEST TCO':isHigh?'⚠ HIGHEST TCO':'—'}</div><div class="rc-name">${t.name}</div><div class="rc-score" style="color:${isLow?'var(--teal)':isHigh?'var(--signal)':'var(--action)'}">${t2Fmt(t.total3yr)}</div><div class="rc-max">3-Year Total</div><div style="font-size:0.8rem;color:var(--ink-soft);margin-top:10px;line-height:1.8;text-align:left;">Year 1: ${t2Fmt(t.y1)}<br>Year 2: ${t2Fmt(t.y23)}<br>Year 3: ${t2Fmt(t.y23)}<br>Internal: ${t2Fmt(t.internal)}</div>`;
+    c.innerHTML=`<div class="rc-label">${isLow?'★ LOWEST TCO':isHigh?'⚠ HIGHEST TCO':'—'}</div><div class="rc-name">${escHtml(t.name)}</div><div class="rc-score" style="color:${isLow?'var(--teal)':isHigh?'var(--signal)':'var(--action)'}">${t2Fmt(t.total3yr)}</div><div class="rc-max">3-Year Total</div><div style="font-size:0.8rem;color:var(--ink-soft);margin-top:10px;line-height:1.8;text-align:left;">Year 1: ${t2Fmt(t.y1)}<br>Year 2: ${t2Fmt(t.y23)}<br>Year 3: ${t2Fmt(t.y23)}<br>Internal: ${t2Fmt(t.internal)}</div>`;
     cards.appendChild(c);
   });
   const savings=maxTCO-minTCO;
   const lowestName=tcos.reduce((a,b)=>a.total3yr<=b.total3yr?a:b).name;
-  document.getElementById('t2-insight-box').innerHTML=`<div class="callout-label">Key Insight</div><div class="callout-text">${savings>0?`The lowest-cost option (${lowestName}) saves <strong>${t2Fmt(savings)}</strong> over 3 years. Verify that the lower-cost option scores acceptably on your Requirements Scorecard — a cheaper system that doesn't meet your needs costs more in the long run.`:'Enter vendor cost data above to see a comparison.'}</div>`;
+  document.getElementById('t2-insight-box').innerHTML=`<div class="callout-label">Key Insight</div><div class="callout-text">${savings>0?`The lowest-cost option (${escHtml(lowestName)}) saves <strong>${t2Fmt(savings)}</strong> over 3 years. Verify that the lower-cost option scores acceptably on your Requirements Scorecard — a cheaper system that doesn't meet your needs costs more in the long run.`:'Enter vendor cost data above to see a comparison.'}</div>`;
   const yt=document.getElementById('t2-year-table');
-  yt.innerHTML=`<thead><tr><th>Cost Category</th>${tcos.map(t=>`<th class="right">${t.name}</th>`).join('')}</tr></thead><tbody><tr><td>Year 1 Vendor Costs</td>${tcos.map(t=>`<td>${t2Fmt(t.y1)}</td>`).join('')}</tr><tr><td>Year 2 Recurring</td>${tcos.map(t=>`<td>${t2Fmt(t.y23)}</td>`).join('')}</tr><tr><td>Year 3 Recurring</td>${tcos.map(t=>`<td>${t2Fmt(t.y23)}</td>`).join('')}</tr><tr><td>Internal / Staff Costs</td>${tcos.map(t=>`<td>${t2Fmt(t.internal)}</td>`).join('')}</tr><tr class="total-row"><td>3-Year Total TCO</td>${tcos.map(t=>`<td>${t2Fmt(t.total3yr)}</td>`).join('')}</tr></tbody>`;
+  yt.innerHTML=`<thead><tr><th>Cost Category</th>${tcos.map(t=>`<th class="right">${escHtml(t.name)}</th>`).join('')}</tr></thead><tbody><tr><td>Year 1 Vendor Costs</td>${tcos.map(t=>`<td>${t2Fmt(t.y1)}</td>`).join('')}</tr><tr><td>Year 2 Recurring</td>${tcos.map(t=>`<td>${t2Fmt(t.y23)}</td>`).join('')}</tr><tr><td>Year 3 Recurring</td>${tcos.map(t=>`<td>${t2Fmt(t.y23)}</td>`).join('')}</tr><tr><td>Internal / Staff Costs</td>${tcos.map(t=>`<td>${t2Fmt(t.internal)}</td>`).join('')}</tr><tr class="total-row"><td>3-Year Total TCO</td>${tcos.map(t=>`<td>${t2Fmt(t.total3yr)}</td>`).join('')}</tr></tbody>`;
   document.getElementById('t2-results').style.display='block';
   document.getElementById('t2-results').scrollIntoView({behavior:'smooth',block:'start'});
 }
@@ -495,8 +495,8 @@ function t5Generate(){
       const val=document.getElementById(`t5${cat.id}_q${i}`)?.value;
       const note=document.getElementById(`t5${cat.id}_n${i}`)?.value;
       if(val)counts[val]++;
-      if(val==='low')priorities.push({level:'high',label:`HIGH RISK: ${item.label}`,note:note||'Significant remediation required before migration.'});
-      else if(val==='med')priorities.push({level:'med',label:`MODERATE RISK: ${item.label}`,note:note||'Gaps identified — plan cleanup sprints before migration cutover.'});
+      if(val==='low')priorities.push({level:'high',label:`HIGH RISK: ${item.label}`,note:note||'Significant remediation required before migration.',userNote:!!note});
+      else if(val==='med')priorities.push({level:'med',label:`MODERATE RISK: ${item.label}`,note:note||'Gaps identified — plan cleanup sprints before migration cutover.',userNote:!!note});
     });
   });
   if(counts.low>0)priorities.push({level:'high',label:'Schedule a data remediation sprint 8–10 weeks before go-live',note:'All High Risk items must be resolved before migration begins.'});
@@ -506,7 +506,7 @@ function t5Generate(){
   const rs=document.getElementById('t5-results');
   rs.innerHTML=`<div class="sc-card-title">Data Migration Readiness Report</div><div style="font-size:0.88rem;color:var(--ink-soft);margin-bottom:18px;">Summary of data quality assessments across all categories.</div>
     <div class="summary-grid"><div class="sum-card risk-high-card"><div class="sum-num">${counts.low}</div><div class="sum-label">High Risk Items</div></div><div class="sum-card risk-med-card"><div class="sum-num">${counts.med}</div><div class="sum-label">Moderate Risk Items</div></div><div class="sum-card risk-low-card"><div class="sum-num">${counts.high}</div><div class="sum-label">Ready to Migrate</div></div></div>
-    <div class="priority-title">Remediation Priority List</div>${priorities.slice(0,8).map(p=>`<div class="priority-item ${p.level}"><span class="pi-badge">${p.level==='high'?'HIGH':p.level==='med'?'MODERATE':'LOW'}</span><div class="pi-text"><strong>${p.label}</strong><br>${p.note}</div></div>`).join('')}
+    <div class="priority-title">Remediation Priority List</div>${priorities.slice(0,8).map(p=>`<div class="priority-item ${p.level}"><span class="pi-badge">${p.level==='high'?'HIGH':p.level==='med'?'MODERATE':'LOW'}</span><div class="pi-text"><strong>${escHtml(p.label)}</strong><br>${escHtml(p.note)}</div></div>`).join('')}
     <div class="retainer-cta"><div class="rct-text"><strong>Need help planning your migration?</strong> Savanna Consulting can review your audit results and help you build a migration project plan.</div><a href="https://app.usemotion.com/meet/Savanna-Consulting/intro-strategy" class="rct-link" target="_blank">Book a Strategy Call →</a></div>`;
   rs.style.display='block'; rs.scrollIntoView({behavior:'smooth',block:'start'});
 }
@@ -729,8 +729,8 @@ function renderScorecardWidget() {
   const maxScore=Math.max(...d.totals);
   const wi=d.totals.indexOf(maxScore);
   const barColors=['var(--action)','var(--action-dark)','var(--teal)'];
-  let html=`<div class="sc-winner">★ Leading: ${d.names[wi]} — ${d.totals[wi]} pts</div>
-    <div class="sc-vendor-tabs">${d.names.map((n,i)=>`<div class="sc-vtab${i===0?' active':''}" onclick="dashScorecardTab(${i})" id="sc-vtab-${i}">${n}</div>`).join('')}</div>
+  let html=`<div class="sc-winner">★ Leading: ${escHtml(d.names[wi])} — ${d.totals[wi]} pts</div>
+    <div class="sc-vendor-tabs">${d.names.map((n,i)=>`<div class="sc-vtab${i===0?' active':''}" onclick="dashScorecardTab(${i})" id="sc-vtab-${i}">${escHtml(n)}</div>`).join('')}</div>
     ${d.names.map((n,vi)=>{
       return `<div class="sc-bars" id="sc-bars-${vi}" style="${vi===0?'':'display:none'}">
         ${T1_SECTIONS.map((sec,si)=>{
@@ -738,7 +738,7 @@ function renderScorecardWidget() {
           let maxSec=0;
           sec.criteria.forEach((c,ci)=>{const v=document.getElementById(`t1s${sec.id}c${ci}v${vi+1}`)?.value;if(v&&v!=='na')maxSec+=4*c.weight;});
           const pct=maxSec>0?Math.round(s/maxSec*100):0;
-          return `<div class="sc-bar-row"><div class="sc-bar-lbl">${sec.name}</div><div class="sc-bar-wrap"><div class="sc-bar-fill" style="width:${pct}%;background:${barColors[vi]}"></div></div><div class="sc-bar-score">${s} pts</div></div>`;
+          return `<div class="sc-bar-row"><div class="sc-bar-lbl">${escHtml(sec.name)}</div><div class="sc-bar-wrap"><div class="sc-bar-fill" style="width:${pct}%;background:${barColors[vi]}"></div></div><div class="sc-bar-score">${s} pts</div></div>`;
         }).join('')}
         <div class="sc-total"><div class="sc-total-lbl">Total Score</div><div class="sc-total-score" style="color:${barColors[vi]}">${d.totals[vi]} / ${d.maxP[vi]}</div></div>
       </div>`;
@@ -764,9 +764,9 @@ function renderTCOWidget() {
     const pct=maxTCO>0?Math.round(t.total3yr/maxTCO*100):0;
     const isLow=t.total3yr===minTCO,isHigh=t.total3yr===maxTCO&&maxTCO!==minTCO;
     const tag=isLow?'<span style="font-size:10px;background:var(--green-pale);color:var(--teal);padding:1px 7px;border-radius:3px;margin-left:6px;">LOWEST</span>':isHigh?'<span style="font-size:10px;background:var(--red-pale);color:var(--signal);padding:1px 7px;border-radius:3px;margin-left:6px;">HIGHEST</span>':'';
-    return `<div class="tco-bar-row"><div class="tco-bar-hdr"><div class="tco-bar-name">${t.name}${tag}</div><div class="tco-bar-amt">${t2Fmt(t.total3yr)}</div></div><div class="tco-bar-wrap"><div class="tco-bar-fill" style="width:${pct}%;background:${isLow?'var(--teal)':isHigh?'var(--signal)':barColors[i]}"></div></div></div>`;
+    return `<div class="tco-bar-row"><div class="tco-bar-hdr"><div class="tco-bar-name">${escHtml(t.name)}${tag}</div><div class="tco-bar-amt">${t2Fmt(t.total3yr)}</div></div><div class="tco-bar-wrap"><div class="tco-bar-fill" style="width:${pct}%;background:${isLow?'var(--teal)':isHigh?'var(--signal)':barColors[i]}"></div></div></div>`;
   }).join('')}</div>
-  ${savings>0?`<div class="tco-delta"><strong>${lowestName}</strong> saves <strong>${t2Fmt(savings)}</strong> over 3 years vs. the highest-cost option.</div>`:''}`;
+  ${savings>0?`<div class="tco-delta"><strong>${escHtml(lowestName)}</strong> saves <strong>${t2Fmt(savings)}</strong> over 3 years vs. the highest-cost option.</div>`:''}`;
   document.getElementById('dash-tco-content').innerHTML=html;
 }
 

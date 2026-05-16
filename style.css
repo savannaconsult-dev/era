@@ -850,6 +850,16 @@ footer{
   border: none; cursor: pointer; transition: background .2s;
 }
 .eval-new-btn:hover { background: #c93e27; }
+.eval-io-row {
+  display: flex; gap: 6px; margin-top: 7px;
+}
+.eval-io-btn {
+  flex: 1; padding: 7px 8px; border-radius: var(--radius-sm);
+  background: var(--fog); color: var(--slate);
+  font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600;
+  border: 1px solid var(--border); cursor: pointer; transition: background .15s, color .15s;
+}
+.eval-io-btn:hover { background: var(--white); color: var(--action-dark); border-color: var(--action-dark); }
 
 /* Eval container is positioned for the dropdown */
 .eval-container { position: relative; padding: 0 0 12px; }
