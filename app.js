@@ -115,6 +115,11 @@ function evalUIRender() {
       <div class="eval-list" id="eval-list"></div>
       <div class="eval-dropdown-footer">
         <button class="eval-new-btn" onclick="evalUINew()">+ New Evaluation</button>
+        <div class="eval-io-row">
+          <button class="eval-io-btn" onclick="evalUIExport()" title="Download all evaluations as JSON">⬇ Export</button>
+          <button class="eval-io-btn" onclick="evalUIImportPrompt()" title="Import evaluations from a JSON file">⬆ Import</button>
+        </div>
+        <input type="file" id="eval-import-input" accept="application/json,.json" style="display:none" onchange="evalUIImportFile(event)">
       </div>
     </div>
     <div style="padding: 0 10px 10px; display:flex; align-items:center; justify-content:flex-end;">
@@ -137,15 +142,15 @@ function evalUIRenderList() {
   }
 
   list.innerHTML = evals.map(ev => `
-    <div class="eval-list-item ${ev.id === activeId ? 'active' : ''}" data-id="${ev.id}">
+    <div class="eval-list-item ${ev.id === activeId ? 'active' : ''}" data-id="${escAttr(ev.id)}">
       <span class="eval-list-dot"></span>
-      <div class="eval-list-body" onclick="evalUISwitch('${ev.id}')">
+      <div class="eval-list-body" onclick="evalUISwitch('${escJsAttr(ev.id)}')">
         <div class="eval-list-name">${escHtml(ev.name)}</div>
-        <div class="eval-list-meta">${formatDate(ev.updatedAt)}</div>
+        <div class="eval-list-meta">${escHtml(formatDate(ev.updatedAt))}</div>
       </div>
       <div class="eval-list-actions">
-        <button class="eval-icon-btn" title="Rename" onclick="evalUIRename(event, '${ev.id}', '${escAttr(ev.name)}')">✎</button>
-        ${evals.length > 1 ? `<button class="eval-icon-btn danger" title="Delete" onclick="evalUIDelete(event, '${ev.id}', '${escAttr(ev.name)}')">✕</button>` : ''}
+        <button class="eval-icon-btn" title="Rename" onclick="evalUIRename(event, '${escJsAttr(ev.id)}', '${escJsAttr(ev.name)}')">✎</button>
+        ${evals.length > 1 ? `<button class="eval-icon-btn danger" title="Delete" onclick="evalUIDelete(event, '${escJsAttr(ev.id)}', '${escJsAttr(ev.name)}')">✕</button>` : ''}
       </div>
     </div>
   `).join('');
@@ -240,17 +245,144 @@ function clearAllInputs() {
 }
 
 function escHtml(str) {
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(str == null ? '' : str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+    .replace(/`/g, '&#96;');
 }
 
+// Safe for use inside HTML attribute values (single- or double-quoted).
+// Returns a fully HTML-encoded string. Callers MUST quote the attribute value.
 function escAttr(str) {
-  return String(str).replace(/'/g,"\\'").replace(/"/g,'\\"');
+  return escHtml(str);
+}
+
+// Escapes a string for safe interpolation into a single-quoted JS string
+// inside an inline event handler (e.g. onclick="foo('${escJsAttr(name)}')").
+// Encodes the result as HTML entities so it round-trips through the HTML
+// parser, then escapes JS string terminators and control chars.
+function escJsAttr(str) {
+  return escHtml(
+    String(str == null ? '' : str)
+      .replace(/\\/g, '\\\\')
+      .replace(/'/g, "\\'")
+      .replace(/"/g, '\\"')
+      .replace(/\r?\n/g, '\\n')
+      .replace(/\r/g, '\\r')
+      .replace(/\t/g, '\\t')
+      .replace(/</g, '\\x3C')
+  );
 }
 
 function formatDate(ts) {
   if (!ts) return '';
   const d = new Date(ts);
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+// ── Export / Import evaluations ──────────────────────────────
+
+function evalUIExport() {
+  try {
+    const bundle = EvalManager.exportBundle();
+    const count = Object.keys(bundle.evaluations || {}).length;
+    if (count === 0) {
+      eraToast('Nothing to export yet.');
+      return;
+    }
+    const json = JSON.stringify(bundle, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const stamp = new Date().toISOString().slice(0, 10);
+    a.href = url;
+    a.download = `era-evaluations-${stamp}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    eraToast(`Exported ${count} evaluation${count === 1 ? '' : 's'}`);
+  } catch (e) {
+    eraToast('Export failed: ' + (e && e.message ? e.message : 'unknown error'));
+  }
+}
+
+function evalUIImportPrompt() {
+  const input = document.getElementById('eval-import-input');
+  if (input) { input.value = ''; input.click(); }
+}
+
+function evalUIImportFile(event) {
+  const file = event && event.target && event.target.files && event.target.files[0];
+  if (!file) return;
+  // Guard against absurdly large files (10 MB cap).
+  if (file.size > 10 * 1024 * 1024) {
+    eraToast('Import failed: file is too large (max 10 MB).');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onerror = () => eraToast('Could not read file.');
+  reader.onload = () => {
+    let parsed;
+    try {
+      parsed = JSON.parse(reader.result);
+    } catch {
+      eraToast('Import failed: file is not valid JSON.');
+      return;
+    }
+    const { ok, evaluations, errors, futureSchema } = EvalManager.validateBundle(parsed);
+    if (!ok) {
+      eraToast('Import failed: ' + (errors[0] || 'no evaluations found.'));
+      return;
+    }
+    // Surface a future-schema warning before committing to an import.
+    if (futureSchema) {
+      const proceed = confirm(
+        (errors[0] || 'This file was produced by a newer version of eRA.') +
+        '\n\nSome fields may not import correctly. Continue anyway?'
+      );
+      if (!proceed) {
+        eraToast('Import cancelled.');
+        return;
+      }
+    }
+    const count = Object.keys(evaluations).length;
+    const ans = prompt(
+      `Import ${count} evaluation${count === 1 ? '' : 's'}?\n\n` +
+      `Type one of:\n` +
+      `  ADD      — add as new entries (collisions get a fresh ID, default)\n` +
+      `  SKIP     — keep existing, only import non-duplicates\n` +
+      `  REPLACE  — overwrite existing entries that share an ID\n` +
+      `  (blank/cancel to abort)`,
+      'ADD'
+    );
+    if (ans === null) return;
+    const strategyMap = { ADD: 'rename', SKIP: 'skip', REPLACE: 'replace' };
+    const strategy = strategyMap[String(ans).trim().toUpperCase()];
+    if (!strategy) {
+      eraToast('Import cancelled.');
+      return;
+    }
+    const hadActive = !!EvalManager.getActive();
+    const result = EvalManager.importEvaluations(evaluations, strategy);
+    // If nothing was active before (empty store or stale id), switch to the
+    // first imported evaluation so the user immediately sees the data.
+    if (!hadActive && result.ids.length) {
+      EvalManager.switchTo(result.ids[0]);
+      restoreCurrentEval();
+    }
+    evalUIRender();
+    if (typeof dashRefresh === 'function') dashRefresh();
+    const parts = [];
+    if (result.added) parts.push(`${result.added} added`);
+    if (result.replaced) parts.push(`${result.replaced} replaced`);
+    if (result.skipped) parts.push(`${result.skipped} skipped`);
+    eraToast(`Imported: ${parts.join(', ') || 'no changes'}`);
+  };
+  reader.readAsText(file);
 }
 
 // ── Mobile sidebar toggle ────────────────────────────────────
