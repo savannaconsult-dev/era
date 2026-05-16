@@ -167,45 +167,84 @@ const EvalManager = (() => {
     };
   }
 
-  // Validates an imported bundle. Returns { ok, evaluations, errors }.
+  // Reserved property names that could enable prototype pollution if used as keys.
+  const RESERVED_KEYS = ['__proto__', 'prototype', 'constructor'];
+  // IDs must match a safe charset and a reasonable length. Compatible with
+  // generated IDs of the form "eval_<digits>" and "eval_<digits>_<base36>".
+  const ID_PATTERN = /^[A-Za-z0-9_-]{1,64}$/;
+
+  function isSafeId(id) {
+    return typeof id === 'string'
+      && ID_PATTERN.test(id)
+      && RESERVED_KEYS.indexOf(id) === -1;
+  }
+
+  // Shallow-clone a data object into a null-prototype map, dropping reserved keys.
+  function sanitizeData(data) {
+    const out = Object.create(null);
+    if (!data || typeof data !== 'object') return out;
+    Object.keys(data).forEach(k => {
+      if (RESERVED_KEYS.indexOf(k) !== -1) return;
+      out[k] = data[k];
+    });
+    return out;
+  }
+
+  // Validates an imported bundle. Returns { ok, evaluations, errors, futureSchema }.
   // Accepts:
   //   - A schemaVersion=1 bundle  { schemaVersion, evaluations: { id: {...} } }
   //   - A raw map of evaluations  { id: { name, data, ... } }       (legacy)
   function validateBundle(bundle) {
     const errors = [];
+    let futureSchema = false;
     if (!bundle || typeof bundle !== 'object') {
-      return { ok: false, evaluations: {}, errors: ['File is not a valid JSON object.'] };
+      return { ok: false, evaluations: {}, errors: ['File is not a valid JSON object.'], futureSchema };
     }
     let evals;
+    let declaredVersion = null;
     if (bundle.schemaVersion != null) {
-      if (bundle.schemaVersion > SCHEMA_VERSION) {
+      declaredVersion = bundle.schemaVersion;
+      if (Number.isFinite(declaredVersion) && declaredVersion > SCHEMA_VERSION) {
+        futureSchema = true;
         errors.push('File was produced by a newer version of eRA (schemaVersion '
-          + bundle.schemaVersion + '). Import may be incomplete.');
+          + declaredVersion + ', supported ' + SCHEMA_VERSION + ').');
       }
       evals = bundle.evaluations;
       if (!evals || typeof evals !== 'object') {
-        return { ok: false, evaluations: {}, errors: ['Bundle is missing an "evaluations" object.'] };
+        return { ok: false, evaluations: {}, errors: ['Bundle is missing an "evaluations" object.'], futureSchema };
       }
     } else {
       // Treat as a raw evaluations map.
       evals = bundle;
     }
 
-    const cleaned = {};
-    Object.entries(evals).forEach(([id, ev]) => {
-      if (!id || typeof id !== 'string') { errors.push('Skipped entry with non-string id.'); return; }
-      if (!ev || typeof ev !== 'object') { errors.push('Skipped non-object entry "' + id + '".'); return; }
+    const cleaned = Object.create(null);
+    Object.keys(evals).forEach(id => {
+      const ev = evals[id];
+      if (!isSafeId(id)) {
+        errors.push('Skipped entry with unsafe id "' + String(id).slice(0, 32) + '".');
+        return;
+      }
+      if (!ev || typeof ev !== 'object') {
+        errors.push('Skipped non-object entry "' + id + '".');
+        return;
+      }
       const now = Date.now();
       cleaned[id] = {
         id,
-        name: typeof ev.name === 'string' ? ev.name : 'Imported Evaluation',
+        name: typeof ev.name === 'string' ? ev.name.slice(0, 200) : 'Imported Evaluation',
         createdAt: Number.isFinite(ev.createdAt) ? ev.createdAt : now,
         updatedAt: Number.isFinite(ev.updatedAt) ? ev.updatedAt : now,
-        data: (ev.data && typeof ev.data === 'object') ? ev.data : {},
+        data: sanitizeData(ev.data),
       };
     });
 
-    return { ok: Object.keys(cleaned).length > 0, evaluations: cleaned, errors };
+    return {
+      ok: Object.keys(cleaned).length > 0,
+      evaluations: cleaned,
+      errors,
+      futureSchema,
+    };
   }
 
   // Merge strategies:
@@ -213,13 +252,24 @@ const EvalManager = (() => {
   //   'skip'    — keep existing local copies, import only items whose id does not collide
   //   'replace' — replace local copies on id collision
   // Returns { added, skipped, replaced, ids }.
+  function generateFreshId(existing) {
+    let id;
+    do {
+      id = 'eval_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+    } while (existing[id]);
+    return id;
+  }
+
   function importEvaluations(evaluations, strategy) {
     const mode = (strategy === 'skip' || strategy === 'replace') ? strategy : 'rename';
     const all = loadAll();
     let added = 0, skipped = 0, replaced = 0;
     const ids = [];
-    Object.values(evaluations).forEach(ev => {
-      const collision = all[ev.id];
+    Object.keys(evaluations).forEach(key => {
+      const ev = evaluations[key];
+      // Defense in depth: skip anything that slipped past validation.
+      if (!ev || typeof ev !== 'object' || !isSafeId(ev.id)) { skipped++; return; }
+      const collision = Object.prototype.hasOwnProperty.call(all, ev.id);
       if (collision) {
         if (mode === 'skip') { skipped++; return; }
         if (mode === 'replace') {
@@ -228,8 +278,8 @@ const EvalManager = (() => {
           ids.push(ev.id);
           return;
         }
-        // rename: assign a fresh id and tag the name
-        const newId = 'eval_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+        // rename: assign a fresh, non-colliding id and tag the name
+        const newId = generateFreshId(all);
         all[newId] = Object.assign({}, ev, { id: newId, name: (ev.name || 'Imported') + ' (imported)' });
         added++;
         ids.push(newId);

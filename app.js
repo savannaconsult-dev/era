@@ -333,10 +333,21 @@ function evalUIImportFile(event) {
       eraToast('Import failed: file is not valid JSON.');
       return;
     }
-    const { ok, evaluations, errors } = EvalManager.validateBundle(parsed);
+    const { ok, evaluations, errors, futureSchema } = EvalManager.validateBundle(parsed);
     if (!ok) {
       eraToast('Import failed: ' + (errors[0] || 'no evaluations found.'));
       return;
+    }
+    // Surface a future-schema warning before committing to an import.
+    if (futureSchema) {
+      const proceed = confirm(
+        (errors[0] || 'This file was produced by a newer version of eRA.') +
+        '\n\nSome fields may not import correctly. Continue anyway?'
+      );
+      if (!proceed) {
+        eraToast('Import cancelled.');
+        return;
+      }
     }
     const count = Object.keys(evaluations).length;
     const ans = prompt(
@@ -355,7 +366,14 @@ function evalUIImportFile(event) {
       eraToast('Import cancelled.');
       return;
     }
+    const hadActive = !!EvalManager.getActive();
     const result = EvalManager.importEvaluations(evaluations, strategy);
+    // If nothing was active before (empty store or stale id), switch to the
+    // first imported evaluation so the user immediately sees the data.
+    if (!hadActive && result.ids.length) {
+      EvalManager.switchTo(result.ids[0]);
+      restoreCurrentEval();
+    }
     evalUIRender();
     if (typeof dashRefresh === 'function') dashRefresh();
     const parts = [];
