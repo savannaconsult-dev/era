@@ -702,6 +702,354 @@ function dashRefresh() {
   renderTCOWidget();
   renderGoLiveWidget();
   updateProgressStrip();
+  renderMissionTopbar();
+  renderMissionKpis();
+  renderMissionActions();
+}
+
+// ============================================================
+// MISSION CONTROL LIGHT — topbar, KPI cards, action queue
+// Computed from existing tool state — no synthetic data.
+// ============================================================
+
+function _mcFmtMoney(n) {
+  if (!n || !isFinite(n)) return '—';
+  if (n >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return '$' + Math.round(n / 1e3) + 'K';
+  return '$' + Math.round(n);
+}
+
+function _mcFmtTimeAgo(ts) {
+  if (!ts) return '';
+  const diff = Date.now() - ts;
+  const min = Math.round(diff / 60000);
+  if (min < 1) return 'just now';
+  if (min < 60) return min + ' min ago';
+  const hr = Math.round(min / 60);
+  if (hr < 24) return hr + ' hr ago';
+  const day = Math.round(hr / 24);
+  return day + ' day' + (day > 1 ? 's' : '') + ' ago';
+}
+
+function _mcComputeReadiness() {
+  // Composite = weighted blend of normalized signals from completed tools.
+  // - Tool 01 leading vendor coverage (% of max points across scored vendors)
+  // - Tool 03 DCAA readiness (% if results rendered)
+  // - Tool 06 Go-Live readiness (% if assessed)
+  const parts = [];
+  let coverage = null;
+  if (DASH_STATE.scorecard) {
+    const d = DASH_STATE.scorecard;
+    const max = Math.max(...d.maxP);
+    const best = Math.max(...d.totals);
+    if (max > 0) {
+      coverage = Math.round(best / max * 100);
+      parts.push({ label: 'Requirements', pct: coverage, weight: 1 });
+    }
+  }
+  // Tool 03 DCAA — read from the rendered tier badge if present.
+  let dcaaPct = null;
+  const dcaaBadge = document.querySelector('#t3-results .sb-label');
+  if (dcaaBadge) {
+    const m = /(\d{1,3})\s*%/.exec(dcaaBadge.textContent || '');
+    if (m) {
+      dcaaPct = parseInt(m[1], 10);
+      parts.push({ label: 'DCAA', pct: dcaaPct, weight: 1 });
+    }
+  }
+  let goLivePct = null;
+  if (DASH_STATE.golive && DASH_STATE.golive.total > 0) {
+    goLivePct = DASH_STATE.golive.pct;
+    parts.push({ label: 'Go-Live', pct: goLivePct, weight: 1 });
+  }
+  if (parts.length === 0) {
+    return { composite: null, coverage, dcaaPct, goLivePct, components: [] };
+  }
+  const sum = parts.reduce((a, p) => a + p.pct * p.weight, 0);
+  const wsum = parts.reduce((a, p) => a + p.weight, 0);
+  return {
+    composite: Math.round(sum / wsum),
+    coverage, dcaaPct, goLivePct,
+    components: parts,
+  };
+}
+
+function _mcGapCount() {
+  // Open readiness gaps = number of non-OK items in:
+  // - Tool 03 prioritized actions (critical + high)
+  // - Tool 06 go-live items not ready (counts blockers too)
+  let critical = 0, high = 0, moderate = 0;
+  document.querySelectorAll('#t3-results .action-item').forEach(el => {
+    if (el.classList.contains('critical')) critical++;
+    else if (el.classList.contains('high')) high++;
+    else moderate++;
+  });
+  let goLiveNotReady = 0, goLiveBlockers = 0;
+  if (DASH_STATE.golive) {
+    goLiveNotReady = DASH_STATE.golive.notReady || 0;
+    goLiveBlockers = DASH_STATE.golive.blockersFailed || 0;
+  }
+  return { critical, high, moderate, goLiveNotReady, goLiveBlockers,
+    total: critical + high + moderate + goLiveNotReady };
+}
+
+function renderMissionTopbar() {
+  if (typeof EvalManager === 'undefined' || !EvalManager.getActive) return;
+  const active = EvalManager.getActive();
+  const titleEl = document.getElementById('mc-topbar-title');
+  const metaEl = document.getElementById('mc-topbar-meta');
+  if (titleEl) {
+    titleEl.textContent = active && active.name ? active.name + ' · Readiness Console' : 'eRA Readiness Console';
+  }
+  if (metaEl) {
+    const parts = ['Enterprise Readiness Analyzer'];
+    if (active && active.updatedAt) {
+      parts.push('Last saved ' + _mcFmtTimeAgo(active.updatedAt));
+    } else {
+      parts.push('6 tools · no evaluation saved yet');
+    }
+    metaEl.textContent = parts.join(' · ');
+  }
+}
+
+function _mcSetKpi(prefix, value, sub, tag, tagClass, barPct, barClass) {
+  const val = document.getElementById(prefix + '-val');
+  const foot = document.getElementById(prefix + '-foot');
+  const tagEl = document.getElementById(prefix + '-tag');
+  const bar = document.getElementById(prefix + '-bar');
+  if (val) val.innerHTML = value;
+  if (foot) foot.innerHTML = sub;
+  if (tagEl) {
+    tagEl.textContent = tag;
+    tagEl.className = 'mc-tag ' + (tagClass || 'mc-tag--neutral');
+  }
+  if (bar) {
+    bar.style.width = (barPct == null ? 0 : Math.max(0, Math.min(100, barPct))) + '%';
+    const wrap = bar.parentElement;
+    if (wrap) {
+      wrap.className = 'mc-bar' + (barClass ? ' ' + barClass : '');
+    }
+  }
+}
+
+function renderMissionKpis() {
+  const r = _mcComputeReadiness();
+  const gaps = _mcGapCount();
+
+  // Composite
+  if (r.composite != null) {
+    let tag = 'On Track', cls = 'mc-tag--ok', barCls = '';
+    if (r.composite < 60) { tag = 'At Risk'; cls = 'mc-tag--crit'; barCls = 'mc-bar--crit'; }
+    else if (r.composite < 80) { tag = 'Watch'; cls = 'mc-tag--warn'; barCls = 'mc-bar--warn'; }
+    const parts = r.components.map(p => escHtml(p.label) + ' ' + p.pct + '%').join(' · ');
+    _mcSetKpi('mc-kpi-composite',
+      r.composite + '<small>/100</small>',
+      '<span>Blend of ' + r.components.length + ' signal' + (r.components.length > 1 ? 's' : '') + '</span><span>' + parts + '</span>',
+      tag, cls, r.composite, barCls);
+  } else {
+    _mcSetKpi('mc-kpi-composite',
+      '—<small>/100</small>',
+      '<span>Run calculations across tools to populate</span>',
+      'Pending', 'mc-tag--neutral', 0, '');
+  }
+
+  // Requirements coverage
+  if (DASH_STATE.scorecard && r.coverage != null) {
+    const d = DASH_STATE.scorecard;
+    const wi = d.totals.indexOf(Math.max(...d.totals));
+    let tag = 'Strong', cls = 'mc-tag--ok', barCls = '';
+    if (r.coverage < 60) { tag = 'Low'; cls = 'mc-tag--crit'; barCls = 'mc-bar--crit'; }
+    else if (r.coverage < 75) { tag = 'Adequate'; cls = 'mc-tag--warn'; barCls = 'mc-bar--warn'; }
+    _mcSetKpi('mc-kpi-coverage',
+      r.coverage + '<small>%</small>',
+      '<span>Leading: ' + escHtml(d.names[wi]) + '</span><span>' + d.totals[wi] + ' / ' + d.maxP[wi] + ' pts</span>',
+      tag, cls, r.coverage, barCls);
+  } else {
+    _mcSetKpi('mc-kpi-coverage',
+      '—<small>%</small>',
+      '<span>Tool 01 not yet scored</span>',
+      'Pending', 'mc-tag--neutral', 0, '');
+  }
+
+  // Lowest 3-yr TCO
+  if (DASH_STATE.tco) {
+    const valid = DASH_STATE.tco.tcos.filter(t => t.total3yr > 0);
+    if (valid.length) {
+      const min = valid.reduce((a, b) => a.total3yr <= b.total3yr ? a : b);
+      const max = valid.reduce((a, b) => a.total3yr >= b.total3yr ? a : b);
+      const savings = max.total3yr - min.total3yr;
+      const pct = max.total3yr > 0 ? Math.round(min.total3yr / max.total3yr * 100) : 0;
+      _mcSetKpi('mc-kpi-tco',
+        _mcFmtMoney(min.total3yr),
+        '<span>Lowest: ' + escHtml(min.name) + '</span><span>' + (savings > 0 ? 'Δ ' + _mcFmtMoney(savings) + ' saved' : 'Single vendor') + '</span>',
+        valid.length + ' vendor' + (valid.length > 1 ? 's' : ''), 'mc-tag--ok', pct, '');
+    } else {
+      _mcSetKpi('mc-kpi-tco', '—', '<span>Tool 02 not yet calculated</span>', 'Pending', 'mc-tag--neutral', 0, '');
+    }
+  } else {
+    _mcSetKpi('mc-kpi-tco', '—', '<span>Tool 02 not yet calculated</span>', 'Pending', 'mc-tag--neutral', 0, '');
+  }
+
+  // Open readiness gaps
+  if (gaps.total > 0) {
+    let tag = 'Watch', cls = 'mc-tag--warn', barCls = 'mc-bar--warn';
+    if (gaps.critical > 0 || gaps.goLiveBlockers > 0) { tag = 'Critical'; cls = 'mc-tag--crit'; barCls = 'mc-bar--crit'; }
+    else if (gaps.total <= 2 && gaps.high === 0) { tag = 'Minor'; cls = 'mc-tag--ok'; barCls = ''; }
+    const subParts = [];
+    if (gaps.critical) subParts.push(gaps.critical + ' critical');
+    if (gaps.high) subParts.push(gaps.high + ' high');
+    if (gaps.goLiveNotReady) subParts.push(gaps.goLiveNotReady + ' go-live');
+    const sub = subParts.length ? subParts.join(' · ') : 'Tracked across tools';
+    // Visual bar: invert — fewer gaps = fuller bar
+    const inverted = Math.max(10, 100 - Math.min(100, gaps.total * 12));
+    _mcSetKpi('mc-kpi-risks',
+      String(gaps.total),
+      '<span>' + sub + '</span><span>Across Tool 03 · 06</span>',
+      tag, cls, inverted, barCls);
+  } else if (DASH_STATE.golive || document.querySelector('#t3-results .action-item')) {
+    _mcSetKpi('mc-kpi-risks', '0', '<span>No open gaps identified</span><span>All scored items at managed level</span>',
+      'Clear', 'mc-tag--ok', 100, '');
+  } else {
+    _mcSetKpi('mc-kpi-risks', '—', '<span>Across Tool 03 DCAA and Tool 06 Go-Live</span>',
+      'Pending', 'mc-tag--neutral', 0, '');
+  }
+}
+
+function renderMissionActions() {
+  const heroEl = document.querySelector('.ml-actions__hero');
+  const listEl = document.getElementById('ml-actions-list');
+  const titleEl = document.getElementById('ml-actions-title');
+  const subEl = document.getElementById('ml-actions-sub');
+  const eyebrowEl = document.getElementById('ml-actions-eyebrow');
+  if (!heroEl || !listEl) return;
+
+  const actions = [];
+
+  // Pull DCAA action items (already prioritized by t3Calculate).
+  document.querySelectorAll('#t3-results .action-item').forEach(el => {
+    let sev = 'ok';
+    if (el.classList.contains('critical')) sev = 'crit';
+    else if (el.classList.contains('high')) sev = 'warn';
+    else if (el.classList.contains('moderate')) sev = 'warn';
+    const txt = (el.querySelector('.ai-text') || {}).textContent || '';
+    if (!txt) return;
+    actions.push({
+      sev,
+      text: txt.length > 110 ? txt.substring(0, 107) + '…' : txt,
+      meta: 'Tool 03 · DCAA',
+      tool: 't3',
+      priority: sev === 'crit' ? 0 : 1,
+    });
+  });
+
+  // Go-Live blockers / not-ready items.
+  if (DASH_STATE.golive) {
+    const g = DASH_STATE.golive;
+    if (g.blockersFailed > 0) {
+      actions.push({
+        sev: 'crit',
+        text: g.blockersFailed + ' go-live blocker' + (g.blockersFailed > 1 ? 's' : '') + ' unresolved — must clear before cutover',
+        meta: 'Tool 06 · Go-Live',
+        tool: 't6',
+        priority: 0,
+      });
+    }
+    if (g.notReady - g.blockersFailed > 0) {
+      const remaining = g.notReady - g.blockersFailed;
+      actions.push({
+        sev: 'warn',
+        text: remaining + ' go-live item' + (remaining > 1 ? 's' : '') + ' not yet ready — review before cutover',
+        meta: 'Tool 06 · Go-Live',
+        tool: 't6',
+        priority: 2,
+      });
+    }
+  }
+
+  // Incomplete tools (no captured state) — practical next-action prompts.
+  const toolStatus = [
+    { id: 't1', name: 'Score requirements across vendors', captured: !!DASH_STATE.scorecard },
+    { id: 't2', name: 'Model 3-year TCO comparison', captured: !!DASH_STATE.tco },
+    { id: 't6', name: 'Score go-live readiness', captured: !!DASH_STATE.golive },
+  ];
+  toolStatus.forEach(t => {
+    if (!t.captured) {
+      actions.push({
+        sev: 'ok',
+        text: t.name,
+        meta: 'Tool ' + t.id.toUpperCase().substring(1).padStart(2, '0') + ' · not yet run',
+        tool: t.id,
+        priority: 5,
+      });
+    }
+  });
+
+  actions.sort((a, b) => a.priority - b.priority);
+  const top = actions.slice(0, 5);
+
+  // Hero severity & copy
+  const critCount = actions.filter(a => a.sev === 'crit').length;
+  const warnCount = actions.filter(a => a.sev === 'warn').length;
+  heroEl.classList.remove('is-warn', 'is-crit');
+
+  if (critCount > 0) {
+    heroEl.classList.add('is-crit');
+    if (eyebrowEl) eyebrowEl.textContent = 'PRIORITY · CRITICAL';
+    if (titleEl) titleEl.textContent = 'Address ' + critCount + ' critical item' + (critCount > 1 ? 's' : '') + ' before advancing.';
+    if (subEl) subEl.textContent = 'These items block readiness or pose a material risk. Resolve them ahead of vendor selection or go-live.';
+  } else if (warnCount > 0) {
+    heroEl.classList.add('is-warn');
+    if (eyebrowEl) eyebrowEl.textContent = 'PRIORITY · ATTENTION';
+    if (titleEl) titleEl.textContent = warnCount + ' item' + (warnCount > 1 ? 's' : '') + ' need attention before sign-off.';
+    if (subEl) subEl.textContent = 'These are high-priority gaps surfaced from the readiness tools. Review and assign owners.';
+  } else if (top.length === 0) {
+    if (eyebrowEl) eyebrowEl.textContent = 'STATUS · CLEAR';
+    if (titleEl) titleEl.textContent = 'No open priority actions. You are tracking to a clean readiness profile.';
+    if (subEl) subEl.textContent = 'Re-run calculations after each major change to keep this snapshot current.';
+  } else {
+    if (eyebrowEl) eyebrowEl.textContent = 'PRIORITY NEXT STEP';
+    if (titleEl) titleEl.textContent = 'Complete the remaining tools to surface prioritized next steps.';
+    if (subEl) subEl.textContent = 'Each tool feeds the dashboard. Start with Tool 01 — every downstream tool depends on documented requirements.';
+  }
+
+  if (top.length === 0) {
+    listEl.innerHTML = '<div class="ml-action" role="listitem">' +
+      '<span class="ml-action__sev ml-action__sev--ok">CLEAR</span>' +
+      '<span>All scored items are at the managed level.</span>' +
+      '<strong>—</strong></div>';
+    return;
+  }
+
+  listEl.innerHTML = top.map(a => {
+    const sevCls = a.sev === 'crit' ? '' : a.sev === 'warn' ? ' ml-action__sev--warn' : ' ml-action__sev--ok';
+    const sevLabel = a.sev === 'crit' ? 'CRIT' : a.sev === 'warn' ? 'HIGH' : 'TODO';
+    const safeTool = (a.tool || '').replace(/[^a-z0-9]/gi, '');
+    const jump = safeTool ? "onclick=\"switchTool('" + safeTool + "')\"" : '';
+    return '<div class="ml-action" role="listitem" ' + jump + ' style="cursor:pointer">' +
+      '<span class="ml-action__sev' + sevCls + '" aria-label="' + sevLabel + '">' + sevLabel + '</span>' +
+      '<span>' + escHtml(a.text) + '</span>' +
+      '<strong>' + escHtml(a.meta) + '</strong></div>';
+  }).join('');
+}
+
+function dashJumpToFirstIncomplete() {
+  if (!DASH_STATE.scorecard) { if (typeof switchTool === 'function') switchTool('t1'); return; }
+  if (!DASH_STATE.tco) { if (typeof switchTool === 'function') switchTool('t2'); return; }
+  if (!DASH_STATE.golive) { if (typeof switchTool === 'function') switchTool('t6'); return; }
+  // Otherwise jump to DCAA action queue if there are critical items.
+  if (document.querySelector('#t3-results .action-item.critical')) {
+    if (typeof switchTool === 'function') switchTool('t3');
+    return;
+  }
+  if (typeof switchTool === 'function') switchTool('t1');
+}
+
+function dashExportJson() {
+  if (typeof evalUIExport === 'function') {
+    evalUIExport();
+  } else if (typeof eraToast === 'function') {
+    eraToast('Export unavailable');
+  }
 }
 
 function updateProgressStrip() {

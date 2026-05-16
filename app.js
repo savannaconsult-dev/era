@@ -61,10 +61,13 @@ function scheduleAutoSave() {
 
 function showAutosaveBadge() {
   const badge = document.getElementById('autosave-badge');
-  if (!badge) return;
-  badge.classList.add('visible');
-  clearTimeout(badge._timer);
-  badge._timer = setTimeout(() => badge.classList.remove('visible'), 2500);
+  if (badge) {
+    badge.classList.add('visible');
+    clearTimeout(badge._timer);
+    badge._timer = setTimeout(() => badge.classList.remove('visible'), 2500);
+  }
+  // Keep the Mission Control topbar's "Last saved" stamp in sync.
+  if (typeof renderMissionTopbar === 'function') renderMissionTopbar();
 }
 
 function restoreCurrentEval() {
@@ -416,6 +419,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Default view
   switchTool('start');
+
+  // Render initial Mission Control topbar / KPIs / action queue
+  if (typeof dashRefresh === 'function') dashRefresh();
 });
 
 function wrapCalculateFunctions() {
@@ -430,5 +436,9 @@ function wrapCalculateFunctions() {
   if (typeof t6ScoreGoLive !== 'undefined') {
     const _t6 = window.t6ScoreGoLive;
     window.t6ScoreGoLive = function(){ _t6(); if(typeof dashCaptureGoLive==='function'){dashCaptureGoLive();dashRefresh();} };
+  }
+  if (typeof t3Calculate !== 'undefined') {
+    const _t3 = window.t3Calculate;
+    window.t3Calculate = function(){ _t3(); if(typeof dashRefresh==='function') dashRefresh(); };
   }
 }
